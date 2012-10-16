@@ -4,7 +4,7 @@
  
 * [Home](http://rikulo.org)
 * [Documentation](http://docs.rikulo.org)
-* [API Reference](http://api.rikulo.org)
+* [API Reference](http://api.rikulo.org/rikulo-gap/latest/)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/rikulo-gap/issues)
 
@@ -25,16 +25,21 @@ For more information, please refer to [Rikulo: Getting Started](http://docs.riku
 
 ##Usage
 
-Everything start from enabling your device accessiblity; then ...
+Everything start from enabling your device accessiblity:
 
     import 'package:rikulo_gap/gap.dart';
 
     void main() {
     	Future<Device> future = enableDeviceAccess(); //enable the device accessibility
     	future.then((device) {
-    		//start using the device's facility when the device is ready
-    		...
+			//device is ready
+     		...
     	});
+    	future.handleException((ex) {
+    		//Time out! Failed to enable the device.
+    		...
+        	return true;
+        });
     }
 
 For more information, please refer to [Building Native Mobile Application](http://docs.rikulo.org/rikulo/latest/Getting_Started/Building_Native_Mobile_Application.html).
