@@ -1,10 +1,10 @@
 #Rikulo Gap
 
-[Rikulo Gap](http://rikulo.org) is a bridge implementation in Dart language of the [Apache Cordova](http://incubator.apache.org/cordova/) mobile framework(a.k.a. PhoneGap) which enables developers to access native facilities of multiple mobile platforms using the HTML, CSS, and Dart.
+[Rikulo Gap](http://rikulo.org) is a bridge implementation of the [Apache Cordova](http://incubator.apache.org/cordova/) mobile framework (a.k.a. PhoneGap) in Dart. It enables developers to access native facilities of multiple mobile platforms using the HTML, CSS, and Dart.
  
 * [Home](http://rikulo.org)
-* [Documentation](http://docs.rikulo.org)
-* [API Reference](http://api.rikulo.org/rikulo-gap/latest/)
+* [Documentation](http://docs.rikulo.org/rikulo/latest/Device_Services/)
+* [API Reference](http://api.rikulo.org/rikulo-gap/latest)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/rikulo-gap/issues)
 
@@ -20,8 +20,6 @@ Add this to your `pubspec.yaml` (or create it):
 Then run the [Pub Package Manager](http://www.dartlang.org/docs/pub-package-manager/) (comes with the Dart SDK):
 
     pub install
-
-For more information, please refer to [Rikulo: Getting Started](http://docs.rikulo.org/rikulo/latest/Getting_Started/) and [Pub: Getting Started](http://www.dartlang.org/docs/pub-package-manager/).
 
 ##Usage
 
