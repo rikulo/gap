@@ -2,33 +2,53 @@
 
 [Rikulo Gap](http://rikulo.org) is a bridge implementation in Dart language of the [Apache Cordova](http://incubator.apache.org/cordova/) mobile framework(a.k.a. PhoneGap) which enables developers to access native facilities of multiple mobile platforms using the HTML, CSS, and Dart.
  
-Rikulo Gap is distributed under the Apache 2.0 License.
-
 * [Home](http://rikulo.org)
 * [Documentation](http://docs.rikulo.org)
 * [API Reference](http://api.rikulo.org)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/rikulo-gap/issues)
 
-##Pub Package
+Rikulo Gap is distributed under the Apache 2.0 License.
+
+##Installation
+
+Add this to your `pubspec.yaml` (or create it):
+
+    dependencies:
+      rikulo_gap: any
+
+Then run the [Pub Package Manager](http://www.dartlang.org/docs/pub-package-manager/) (comes with the Dart SDK):
+
+    pub install
+
+For more information, please refer to [Rikulo: Getting Started](http://docs.rikulo.org/rikulo/latest/Getting_Started/) and [Pub: Getting Started](http://www.dartlang.org/docs/pub-package-manager/).
+
+##Usage
+
+Everything start from enabling your device accessiblity; then ...
+
     import 'package:rikulo_gap/gap.dart';
 
-##pubspec.yaml
-    name: ...
-	...
-	dependencies:
-	  rikulo_gap:
+    void main() {
+    	Future<Device> future = enableDeviceAccess(); //enable the device accessibility
+    	future.then((device) {
+    		//start using the device's facility when the device is ready
+    		...
+    	});
+    }
+
+For more information, please refer to [Building Native Mobile Application](http://docs.rikulo.org/rikulo/latest/Getting_Started/Building_Native_Mobile_Application.html).
 
 ##Mobile Facilities	  
-* Device
-* Accelerometer
-* Camera
-* Capture
-* Compass
-* Connection
-* Contacts
-* Geolocation
-* Notification
+* device
+* accelerometer
+* camera
+* capture
+* compass
+* connection
+* contacts
+* geolocation
+* notification
 
 ##History
 * Oct. 16, 2012: alpha version
