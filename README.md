@@ -1,23 +1,36 @@
 #Rikulo Gap
 
-[Rikulo Gap](http://rikulo.org) is a bridge implementation in Dart language of the [Apache Cordova](http://incubator.apache.org/cordova/) mobile framework(a.k.a. PhoneGap) which enables developers to access native facilities of multiple mobile platforms using the HTML, CSS, and Dart.
+[Rikulo Gap](http://rikulo.org) is a bridge implementation of the [Apache Cordova](http://incubator.apache.org/cordova/) mobile framework (a.k.a. PhoneGap) in Dart. It enables developers to access native facilities of multiple mobile platforms using the HTML, CSS, and Dart.
  
 Rikulo Gap is distributed under the Apache 2.0 License.
 
 * [Home](http://rikulo.org)
-* [Documentation](http://docs.rikulo.org)
-* [API Reference](http://api.rikulo.org)
+* [Documentation](http://docs.rikulo.org/rikulo/latest/Device_Services/)
+* [API Reference](http://api.rikulo.org/rikulo-gap/latest)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/rikulo-gap/issues)
 
-##Pub Package
+##Installation
+
+Add this to your `pubspec.yaml` (or create it):
+
+    dependencies:
+      rikulo_gap:
+
+Then run the [Pub Package Manager](http://www.dartlang.org/docs/pub-package-manager/) (comes with the Dart SDK):
+
+    pub install
+
+##Usage
+
+Creating UI in Rikulo is straightforward.
+
     import 'package:rikulo_gap/gap.dart';
 
-##pubspec.yaml
-    name: ...
-	...
-	dependencies:
-	  rikulo_gap:
+    void main() {
+    }
+
+For more information, please refer to [Building Native Mobile Application](http://docs.rikulo.org/rikulo/latest/Getting_Started/Building_Native_Mobile_Application.html).
 
 ##Mobile Facilities	  
 * Device
