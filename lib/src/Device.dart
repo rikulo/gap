@@ -105,15 +105,16 @@ class Device {
 }
 
 /** Enable the device accessibility and pass the singleton device via
- * a Future; pass null if failed to enable the device.
+ * a Future; throw exception if failed to enable the device.
  *
  *     Future<device> future = enableDeviceAccess();
  *     future.then((device) {
- *       if (device != null) {
- *         ... //Access the device
- *       } else {
- *         ... //Cannot enable the device
- *       }
+ *        //Access the device
+ *         ...
+ *     });
+ *     future.handleException((ex) {
+ *        print("Time out! Fail to enable the device.");
+ *        return true;
  *     });
  *
  * This method can be called multiple times, but the second invocation
@@ -153,8 +154,9 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
         _doDeviceReady();
       else
         _addEventListener("deviceready", _doDeviceReady, true);
-    } else
-      cmpl.complete(null); //time out, pass null.
+    } else //time out, throw exception.
+      cmpl.completeException(
+          new RuntimeError("Time out! Fail to enable the device."));
   });
 
   return cmpl.future;
