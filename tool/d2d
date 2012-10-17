@@ -26,7 +26,7 @@ if [ "$TERM" = "cygwin" ] || [ "$OSTYPE" = "cygwin" ] ; then
   homedir=$(cygpath -u $homedir)
 fi
 outdir=$homedir/out
-srcfl=$homedir/example/dartdoc/dartdoc.dart
+srcfl=$homedir/dartdoc/dartdoc.dart
 
 if [ -d $outdir ] ; then
 	rm -rf $outdir/docs

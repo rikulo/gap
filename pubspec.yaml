@@ -1,8 +1,8 @@
 name: rikulo_gap
 version: 0.5.0
 description: >
-  Rikulo Gap is a bridge implementation in Dart language of the Apache Cordova mobile
-  framework which enables developers to access native facilities of multiple
+  Rikulo Gap is a bridge implementation of the Apache Cordova/PhoneGap mobile
+  framework which enables developers to access native resources of multiple
   mobile platforms using the HTML, CSS, and Dart.
 authors:
 - Henri Chen <henrichen@rikulo.org>
@@ -10,3 +10,4 @@ homepage: http://rikulo.org
 dependencies:
   js:
     hosted: js
+    version: 0.0.5
