@@ -4,7 +4,7 @@
 typedef NotificationAlertCallback();
 typedef NotificationConfirmCallback(int buttonId);
 
-/** singleton [Notification] */
+/** Singleton Notification. */
 Notification notification;
 
 /**

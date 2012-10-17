@@ -6,7 +6,7 @@ typedef CameraSuccessCB(String imageData);
 typedef CameraErrorCB(String message);
 typedef CleanupSuccessCB();
 
-//singleton camera
+/** Singleton Camera. */
 Camera camera = new Camera();
 
 /**

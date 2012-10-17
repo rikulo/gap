@@ -2,7 +2,7 @@
 //History: Wed, May 2, 2012  12:32:56 PM
 // Author: henrichen
 
-/** singleton device */
+/** Singleton Device. */
 Device device;
 
 /** The device. */
@@ -107,14 +107,14 @@ class Device {
 /** Enable the device accessibility and pass the singleton device via
  * a Future; throw exception if failed to enable the device.
  *
- *     Future<device> future = enableDeviceAccess();
- *     future.then((device) {
+ *     Future<device> enable = enableDeviceAccess();
+ *     enable.then((device) {
  *        //Access the device
  *         ...
  *     });
- *     future.handleException((ex) {
- *        print("Time out! Fail to enable the device.");
- *        return true;
+ *     enable.handleException((ex) {
+ *        //Fail to enable the device
+ *         ...
  *     });
  *
  * This method can be called multiple times, but the second invocation

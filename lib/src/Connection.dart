@@ -2,7 +2,7 @@
 //History: Fri, May 18, 2012  04:56:12 PM
 // Author: henrichen
 
-//singleton connection info
+/** Singleton Connection. */
 Connection connection = new Connection();
 
 /**

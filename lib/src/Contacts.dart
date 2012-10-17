@@ -7,7 +7,7 @@ typedef ContactsSuccessCB(List<Contact> contacts);
 /** onError callback function if fail getting the Contact List */
 typedef ContactsErrorCB(ContactError error);
 
-/** singleton [Contacts]. */
+/** Singleton Contacts. */
 Contacts contacts = new Contacts();
 
 /**

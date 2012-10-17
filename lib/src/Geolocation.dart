@@ -7,7 +7,7 @@ typedef GeolocationSuccessCB(Position pos);
 /** onError callback function if fail getting the Positioninformation */
 typedef GeolocationErrorCB(PositionError error);
 
-/** singleton geolocation */
+/** Singleton Geolocation. */
 Geolocation geolocation = new Geolocation();
 
 /**

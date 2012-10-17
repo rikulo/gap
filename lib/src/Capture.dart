@@ -8,7 +8,7 @@
 typedef CaptureSuccessCB(List<MediaFile> mediaFiles);
 typedef CaptureErrorCB(CaptureError error);
 
-//singleton capture
+/** Singleton Capture. */
 Capture capture = new Capture();
 
 class Capture {

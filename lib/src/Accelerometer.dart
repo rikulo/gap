@@ -7,7 +7,7 @@ typedef AccelerometerSuccessCB(Acceleration accel);
 /** onError callback function if fail getting the acceleration information */
 typedef AccelerometerErrorCB();
 
-//singleton accelerometer
+/** Singleton Accelerometer. */
 Accelerometer accelerometer = new Accelerometer();
 
 /**

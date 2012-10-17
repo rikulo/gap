@@ -7,7 +7,7 @@ typedef CompassSuccessCB(CompassHeading heading);
 /** onError callback function if fail getting the heading information */
 typedef CompassErrorCB(CompassError error);
 
-//singleton compass
+/** Singleton Compass. */
 Compass compass = new Compass();
 
 /**
