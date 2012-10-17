@@ -28,15 +28,17 @@ Everything start from enabling your device accessiblity:
     import 'package:rikulo_gap/gap.dart';
 
     void main() {
-    	Future<Device> future = enableDeviceAccess(); //enable the device accessibility
-    	future.then((device) {
-			//device is ready
+        //enable the device
+    	Future<Device> enable = enableDeviceAccess(); 
+
+        //when the device is enabled and ready
+    	enable.then((device) {
      		...
     	});
-    	future.handleException((ex) {
-    		//Time out! Failed to enable the device.
+
+        //if failed to enable the device and/or timeout
+    	enable.handleException((ex) {
     		...
-        	return true;
         });
     }
 
