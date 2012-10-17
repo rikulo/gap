@@ -15,7 +15,7 @@ Rikulo Gap is distributed under the Apache 2.0 License.
 Add this to your `pubspec.yaml` (or create it):
 
     dependencies:
-      rikulo_gap: any
+      rikulo_gap:
 
 Then run the [Pub Package Manager](http://www.dartlang.org/docs/pub-package-manager/) (comes with the Dart SDK):
 
