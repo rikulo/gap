@@ -8,6 +8,4 @@ authors:
 - Henri Chen <henrichen@rikulo.org>
 homepage: http://rikulo.org
 dependencies:
-  js:
-    hosted: js
-    version: 0.0.5
+  js: 0.0.5
