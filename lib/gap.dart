@@ -5,7 +5,7 @@
 library rikulo_gap;
 
 import 'dart:html';
-import 'package:js/js.dart' as js;
+import '../packages/js/js.dart' as js;
 
 part 'src/Util.dart';
 
