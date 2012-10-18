@@ -1,5 +1,4 @@
-//import 'package:rikulo/view.dart';
-import '../../../rikulo/lib/view.dart';
+import 'package:rikulo/view.dart';
 import 'package:rikulo_gap/gap.dart';
 
 showAcceleration() {
