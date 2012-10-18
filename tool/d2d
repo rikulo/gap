@@ -40,10 +40,11 @@ if [ "$TERM" = "cygwin" ] || [ "$OSTYPE" = "cygwin" ] ; then
 fi
 
 PATH=$PATH:$SDK/bin
-echo Compiling $homedir/lib/*.dart
-$dartcmd $dartdoc --exclude-lib js --out $homedir/out/docs $homedir/lib/*.dart
-if [ ! -f $homedir/out/docs/index.html ] ; then
-	echo $homedir/docs/index.html not found. Failed?
+echo Compiling $homedir/lib
+mkdir -p $outdir/docs
+$dartcmd $dartdoc --exclude-lib js --out $outdir/docs $homedir/lib/*.dart
+if [ ! -f $outdir/docs/index.html ] ; then
+	echo $outdir/docs/index.html not found. Failed?
 	exit 1
 fi
 
