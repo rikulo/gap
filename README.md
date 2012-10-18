@@ -3,7 +3,7 @@
 [Rikulo Gap](http://rikulo.org) is a bridge implementation of the [Apache Cordova](http://incubator.apache.org/cordova/) mobile framework (a.k.a. PhoneGap) in Dart. It enables developers to access native facilities of multiple mobile platforms using the HTML, CSS, and Dart.
  
 * [Home](http://rikulo.org)
-* [Documentation](http://docs.rikulo.org/rikulo/latest/Device_Services/)
+* [Documentation](http://docs.rikulo.org/rikulo/latest/Rikulo_Gap/)
 * [API Reference](http://api.rikulo.org/rikulo-gap/latest)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/rikulo-gap/issues)
