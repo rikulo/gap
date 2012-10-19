@@ -25,7 +25,7 @@ Then run the [Pub Package Manager](http://pub.dartlang.org/doc) (comes with the 
 
 Everything start from enabling your device accessiblity:
 
-    import 'package:rikulo_gap/gap.dart';
+    import 'package:rikulo_gap/rikulo_gap.dart';
 
     void main() {
         //enable the device
