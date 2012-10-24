@@ -27,7 +27,7 @@ To install stuff that is still in development, add this to your `pubspec.yam`:
 
     dependencies:
       rikulo_gap:
-        git: git@github.com:rikulo/rikulo-gap.git
+        git: git://github.com/rikulo/rikulo-gap.git
 
 For more information, please refer to [Pub: Dependencies](http://pub.dartlang.org/doc/pubspec.html#dependencies).
 
