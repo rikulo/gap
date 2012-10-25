@@ -8,7 +8,7 @@ typedef ContactsSuccessCB(List<Contact> contacts);
 typedef ContactsErrorCB(ContactError error);
 
 /** Singleton Contacts. */
-Contacts contacts = new Contacts();
+Contacts contacts = new Contacts._internal();
 
 /**
  * Access to the contacts list of this device.
@@ -16,7 +16,9 @@ Contacts contacts = new Contacts();
 class Contacts {
   js.Proxy _contacts;
 
-  Contacts() {
+  factory Contacts() => contacts;
+
+  Contacts._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

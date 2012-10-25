@@ -8,7 +8,7 @@ typedef GeolocationSuccessCB(Position pos);
 typedef GeolocationErrorCB(PositionError error);
 
 /** Singleton Geolocation. */
-Geolocation geolocation = new Geolocation();
+Geolocation geolocation = new Geolocation._internal();
 
 /**
  * Capture device motion in x, y, and z direction.
@@ -16,7 +16,9 @@ Geolocation geolocation = new Geolocation();
 class Geolocation {
   js.Proxy _geolocation;
 
-  Geolocation() {
+  factory Geolocation() => geolocation;
+
+  Geolocation._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

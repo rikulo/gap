@@ -9,7 +9,7 @@ Device device;
 class Device {
   js.Proxy _device;
 
-  Device() {
+  Device._internal() {
     js.scoped(() {
       _device = js.context.device;
       js.retain(_device);
@@ -139,7 +139,7 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
   //prepare the device-ready callback
   Completer cmpl = new Completer();
   Function _doDeviceReady = () {
-    Device dev = new Device();
+    Device dev = new Device._internal();
     dev._registerDeviceEvents();
     device = dev;
     dev._onDeviceReady();

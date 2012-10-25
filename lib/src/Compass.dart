@@ -8,7 +8,7 @@ typedef CompassSuccessCB(CompassHeading heading);
 typedef CompassErrorCB(CompassError error);
 
 /** Singleton Compass. */
-Compass compass = new Compass();
+Compass compass = new Compass._internal();
 
 /**
  * Obtains the direction the device is pointing.
@@ -16,7 +16,9 @@ Compass compass = new Compass();
 class Compass {
   js.Proxy _compass;
 
-  Compass() {
+  factory Compass() => compass;
+
+  Compass._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

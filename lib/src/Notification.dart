@@ -5,7 +5,7 @@ typedef NotificationAlertCallback();
 typedef NotificationConfirmCallback(int buttonId);
 
 /** Singleton Notification. */
-Notification notification;
+Notification notification = new Notification._internal();
 
 /**
  * Access to the device notification facility.
@@ -13,7 +13,9 @@ Notification notification;
 class Notification {
   js.Proxy _notification;
 
-  Notification() {
+  factory Notification() => notification;
+
+  Notification._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

@@ -8,7 +8,7 @@ typedef AccelerometerSuccessCB(Acceleration accel);
 typedef AccelerometerErrorCB();
 
 /** Singleton Accelerometer. */
-Accelerometer accelerometer = new Accelerometer();
+Accelerometer accelerometer = new Accelerometer._internal();
 
 /**
  * Capture device motion in x, y, and z direction.
@@ -16,7 +16,9 @@ Accelerometer accelerometer = new Accelerometer();
 class Accelerometer {
   js.Proxy _accelerometer;
 
-  Accelerometer() {
+  factory Accelerometer() => accelerometer;
+
+  Accelerometer._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

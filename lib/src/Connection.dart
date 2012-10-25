@@ -3,7 +3,7 @@
 // Author: henrichen
 
 /** Singleton Connection. */
-Connection connection = new Connection();
+Connection connection = new Connection._internal();
 
 /**
  * Network connection information of this device.
@@ -19,7 +19,9 @@ class Connection {
 
   js.Proxy _connection;
 
-  Connection() {
+  factory Connection() => connection;
+
+  Connection._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

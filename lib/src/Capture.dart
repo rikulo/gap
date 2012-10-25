@@ -9,12 +9,14 @@ typedef CaptureSuccessCB(List<MediaFile> mediaFiles);
 typedef CaptureErrorCB(CaptureError error);
 
 /** Singleton Capture. */
-Capture capture = new Capture();
+Capture capture = new Capture._internal();
 
 class Capture {
   js.Proxy _capture;
 
-  Capture() {
+  factory Capture() => capture;
+
+  Capture._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {

@@ -1,4 +1,4 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
+//1Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 //History: Wed, May 9, 2012  09:12:33 AM
 // Author: henrichen
 
@@ -7,7 +7,7 @@ typedef CameraErrorCB(String message);
 typedef CleanupSuccessCB();
 
 /** Singleton Camera. */
-Camera camera = new Camera();
+Camera camera = new Camera._internal();
 
 /**
  * Access to the camera application of this device.
@@ -15,7 +15,9 @@ Camera camera = new Camera();
 class Camera {
   js.Proxy _camera;
 
-  Camera() {
+  factory Camera() => camera;
+
+  Camera._internal() {
     if (device == null)
       throw new RuntimeError('device is not ready yet.');
     js.scoped(() {
