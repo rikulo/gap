@@ -2,7 +2,10 @@
 //History: Mon, May 21, 2012  03:51:44 PM
 // Author: henrichen
 
+/** onSuccess callback function that returns the file data. */
 typedef MediaFileDataSuccessCB(MediaFileData data);
+
+/** onError callback function if fail getting the file data. */
 typedef MediaFileDataErrorCB();
 
 /** Midea capture file */

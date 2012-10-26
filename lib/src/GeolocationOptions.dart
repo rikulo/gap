@@ -2,6 +2,9 @@
 //History: Fri, May 18, 2012  09:17:04 AM
 // Author: henrichen
 
+/** Options used with [Geolocation.getCurrentPosition] and
+ * [Geolocation.watchPosition] methods.
+ */
 class GeolocationOptions {
   /** Frequency to retrieve a Position information; default 10000 */
   int frequency;

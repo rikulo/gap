@@ -2,6 +2,9 @@
 //History: Fri, Oct 12, 2012  06:42:26 PM
 // Author: henrichen
 
+/** Error returned when failed to get the heading information from the
+ * [Compass] service.
+ */
 class CompassError {
   static final int COMPASS_INTERNAL_ERR = 0;
   static final int COMPASS_NOT_SUPPORTED = 20;

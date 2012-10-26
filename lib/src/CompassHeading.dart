@@ -2,6 +2,7 @@
 //History: Fri, May 11, 2012  10:11:22 AM
 // Author: henrichen
 
+/** The Compass heading information */
 class CompassHeading {
   /** 0 ~ 359.99 degree at a single moment of time */
   final double magneticHeading;

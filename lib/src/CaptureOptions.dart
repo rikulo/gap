@@ -2,6 +2,7 @@
 //History: Mon, May 21, 2012  02:44:12 PM
 // Author: henrichen
 
+/** Options used with [Capture.captureAudio] method. */
 class CaptureAudioOptions {
   /** The maximum number of audio clips the device user can record in a single capture operation; default to 1; */
   final int limit;
@@ -16,6 +17,7 @@ class CaptureAudioOptions {
   => {'limit' : limit, 'duration' : duration, 'mode' : mode._toMap()};
 }
 
+/** Options used with [Capture.captureImage] method. */
 class CaptureImageOptions {
   /** The maximum number of images the device user can capture in a single capture operation; default to 1; */
   final int limit;
@@ -28,6 +30,7 @@ class CaptureImageOptions {
   => {'limit' : limit, 'mode' : mode._toMap()};
 }
 
+/** Options used with [Capture.captureVideo] method. */
 class CaptureVideoOptions {
   /** The maximum number of video clips the device user can record in a single capture operation; default to 1; */
   final int limit;
@@ -42,6 +45,7 @@ class CaptureVideoOptions {
   => {'limit' : limit, 'duration' : duration, 'mode' : mode._toMap()};
 }
 
+/** Media configuration data */
 class ConfigurationData {
   /** MIME types supported by this device.
    * video/3gpp

@@ -2,15 +2,18 @@
 //History: Mon, May 21, 2012  02:44:12 PM
 // Author: henrichen
 
-/**
- * Access to the audio/image/video capture facility of this device.
- */
+/** onSuccess callback function that returns the captured media */
 typedef CaptureSuccessCB(List<MediaFile> mediaFiles);
+
+/** onError callback function if fail to capture the media */
 typedef CaptureErrorCB(CaptureError error);
 
 /** Singleton Capture. */
 Capture capture = new Capture._internal();
 
+/**
+ * Access to the audio/image/video capture facility of this device.
+ */
 class Capture {
   js.Proxy _capture;
 

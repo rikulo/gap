@@ -2,6 +2,7 @@
 //History: Mon, Oct 15, 2012  05:04:26 PM
 // Author: henrichen
 
+/** Error returned when trying to get [Geolocation] position */
 class PositionError {
   static const int PERMISSION_DENIED = 1;
   static const int POSITION_UNAVAILABLE = 2;

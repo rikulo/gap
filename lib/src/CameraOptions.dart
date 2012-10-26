@@ -2,6 +2,7 @@
 //History: Wed, May 9, 2012  09:12:33 AM
 // Author: henrichen
 
+/** Options used with [Camera]. */
 class CameraOptions {
   /** The picture quality(0 ~ 100); default: 100. */
   final int quality;
@@ -31,6 +32,7 @@ class CameraOptions {
   /** Whether save the image to photo album after capture */
   final bool saveToPhotoAlbum;
 
+  /** Options used with [Camera]. */
   CameraOptions({
       int quality : 100,
       int destinationType : DestinationType.FILE_URI,

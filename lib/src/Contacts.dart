@@ -44,7 +44,8 @@ class Contacts {
   *   Contact id only if empty; return all fields if provide ["*"].
   * + [contactOptions] the filter string to apply the query.
   */
-  void find(List<String> fields, ContactsSuccessCB success, ContactsErrorCB error, ContactsFindOptions contactOptions) {
+  void find(List<String> fields, ContactsSuccessCB success,
+            ContactsErrorCB error, ContactsFindOptions contactOptions) {
     js.scoped(() {
       var fs = js.array(fields);
       var s0 = (p) {

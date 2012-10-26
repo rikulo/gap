@@ -1,4 +1,8 @@
-/** Options to setup heading event listener */
+//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
+//History: Fri, May 11, 2012  10:21:52 AM
+// Author: henrichen
+
+/** Options used with [Compass.watchHeading] method. */
 class CompassOptions {
   /** interval in milliseconds to retrieve CompassHeading back; Default: 100 */
   final int frequency;

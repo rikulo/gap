@@ -2,6 +2,7 @@
 //History: Mon, May 14, 2012  02:28:13 PM
 // Author: henrichen
 
+/** Options used with [Contacts.find] method.*/
 class ContactsFindOptions {
   /** The search string used to filter Contacts; default "" */
   final String filter;

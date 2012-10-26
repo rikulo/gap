@@ -1,3 +1,8 @@
+//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
+//History: Mon, May 21, 2012  02:32:31 PM
+// Author: henrichen
+
+/** Error returned when failed to capture the require media */
 class CaptureError {
   static const int CAPTURE_INTERNAL_ERR = 0;
   static const int CAPTURE_APPLICATION_BUSY = 1;
