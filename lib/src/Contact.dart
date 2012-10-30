@@ -62,7 +62,7 @@ class Contact {
     js.scoped(() {
       var s0 = (p) {success(this); js.release(_proxy);};
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = _newOnceCallbacks("con", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _proxy.remove(ok, fail);
@@ -86,7 +86,7 @@ class Contact {
         success(this);
       };
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = _newOnceCallbacks("con", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _updateProxy();

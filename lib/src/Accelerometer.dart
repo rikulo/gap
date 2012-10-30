@@ -35,7 +35,7 @@ class Accelerometer {
                               AccelerometerErrorCB error) {
     js.scoped(() {
       var s0 = (p) => success(new Acceleration.fromProxy(p));
-      List jsfns = _newOnceCallbacks("acc", [s0, error], [1, 0]);
+      List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _accelerometer.getCurrentAcceleration(ok, fail);
@@ -58,8 +58,8 @@ class Accelerometer {
       var ok = new js.Callback.many(s0);
       var fail = new js.Callback.many(error);
       var opts = options == null ? null : js.map(options._toMap());
-      var id = _accelerometer.watchAcceleration(ok, fail, opts);
-      _addCallbacks(_unique("acc", id), [ok, fail]);
+      var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
+      JSUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -72,8 +72,8 @@ class Accelerometer {
    */
   void clearWatch(var watchID) {
     js.scoped(() {
-      _accelerometer.clearWatch(watchID);
-      _delCallbacks(_unique("acc", watchID));
+      _accelerometer.clearWatch(watchID.substring(4));
+      JSUtil.delCallbacks(watchID);
     });
   }
 }

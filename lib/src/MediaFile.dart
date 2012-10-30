@@ -37,7 +37,7 @@ class MediaFile {
   void getFormatData(MediaFileDataSuccessCB success, [MediaFileDataErrorCB error]) {
     js.scoped(() {
       var s0 = (p) => success(new MediaFileData.fromProxy(p));
-      List jsfns = _newOnceCallbacks("cap", [s0, error], [1, 0]);
+      List jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, error], [1, 0]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _proxy.getFormatData(ok, fail);

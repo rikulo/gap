@@ -134,7 +134,7 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
     _injectJavaScriptSrc(serviceUri); //load "cordova.js" asynchronously
 
   //wait cordova.js to be loaded. Try every 10 ms, try total 180 seconds
-  Future<bool> loaded = _doWhenReady(_cordovaLoaded, 50, 180000);
+  Future<bool> loaded = JSUtil.doWhenReady(_cordovaLoaded, 50, 180000);
 
   //prepare the device-ready callback
   Completer cmpl = new Completer();

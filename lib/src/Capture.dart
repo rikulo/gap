@@ -46,7 +46,7 @@ class Capture {
     js.scoped(() {
       var s0 = (p) => success(_toFiles(p));
       var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = _newOnceCallbacks("cap", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());
@@ -60,7 +60,7 @@ class Capture {
     js.scoped(() {
       var s0 = (p) => success(_toFiles(p));
       var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = _newOnceCallbacks("cap", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());
@@ -74,7 +74,7 @@ class Capture {
     js.scoped(() {
       var s0 = (p) => success(_toFiles(p));
       var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = _newOnceCallbacks("cap", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());

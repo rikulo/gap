@@ -37,7 +37,7 @@ class Compass {
     js.scoped(() {
       var s0 = (p) => success(new CompassHeading.fromProxy(p));
       var e0 = (p) => error(new CompassError.fromProxy(p));
-      List jsfns = _newOnceCallbacks("cmp", [s0, e0], [1, 1]);
+      List jsfns = JSUtil.newCallbackOnceGroup("cmp", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       js.context.navigator.compass.getCurrentHeading(ok, fail);
@@ -61,8 +61,8 @@ class Compass {
       var ok = new js.Callback.many(s0);
       var fail = new js.Callback.many(e0);
       var opts = options == null ? null : js.map(options._toMap());
-      var id = js.context.navigator.compass.watchHeading(ok, fail, opts);
-      _addCallbacks(_unique("cmp", id), [ok, fail]);
+      var id = "cmp_${js.context.navigator.compass.watchHeading(ok, fail, opts)}";
+      JSUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -75,8 +75,8 @@ class Compass {
    */
   void clearWatch(var watchID) {
     js.scoped(() {
-      js.context.navigator.compass.clearWatch(watchID);
-      _delCallbacks(_unique("cmp", watchID));
+      js.context.navigator.compass.clearWatch(watchID.substring(4));
+      JSUtil.delCallbacks(watchID);
     });
   }
 }

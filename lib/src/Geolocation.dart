@@ -36,7 +36,7 @@ class Geolocation {
     js.scoped(() {
       var s0 = (p) => success(new Position.fromProxy(p));
       var e0 = (p) => error(new PositionError.fromProxy(p));
-      List jsfns = _newOnceCallbacks("geo", [s0, e0], [1, 1]);
+      List jsfns = JSUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _geolocation.getCurrentPosition(ok, fail);
@@ -61,8 +61,8 @@ class Geolocation {
       var ok = new js.Callback.many(s0);
       var fail = e0 == null ? null : new js.Callback.many(e0);
       var opts = options == null ? null : js.map(options._toMap());
-      var id = _geolocation.watchPosition(ok, fail, opts);
-      _addCallbacks(_unique("geo", id), [ok, fail]);
+      var id = "geo_${geolocation.watchPosition(ok, fail, opts)}";
+      JSUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -75,8 +75,8 @@ class Geolocation {
    */
   void clearWatch(var watchID) {
     js.scoped(() {
-      _geolocation.clearWatch(watchID);
-      _delCallbacks(_unique("geo", watchID));
+      _geolocation.clearWatch(watchID.substring(4));
+      JSUtil.delCallbacks(watchID);
     });
   }
 }
