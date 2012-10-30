@@ -1,7 +1,8 @@
 //Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 //History: Tue, Oct 9, 2012  06:03:22 PM
 // Author: henrichen
-import 'package:rikulo_gap/rikulo_gap.dart';
+import 'package:rikulo_gap/device.dart';
+import 'package:rikulo_gap/accelerometer.dart';
 
 void accessAccelerometer() {
   accelerometer.getCurrentAcceleration(

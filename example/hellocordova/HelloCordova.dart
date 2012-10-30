@@ -1,5 +1,6 @@
 import 'package:rikulo/view.dart';
-import 'package:rikulo_gap/rikulo_gap.dart';
+import 'package:rikulo_gap/device.dart';
+import 'package:rikulo_gap/accelerometer.dart';
 
 showAcceleration() {
   //prepare a text view to show the acceleration information
