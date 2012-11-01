@@ -35,7 +35,7 @@ For more information, please refer to [Pub: Dependencies](http://pub.dartlang.or
 
 Everything start from enabling your device accessiblity:
 
-    import 'package:rikulo_gap/rikulo_gap.dart';
+    import 'package:rikulo_gap/device.dart';
 
     void main() {
         //enable the device
@@ -65,18 +65,13 @@ For more information, please refer to [Building Native Mobile Application](http:
 * geolocation
 * notification
 
-##History
-* Oct. 16, 2012: alpha version
- * Refactor 'device' out from Rikulo main trunk.
- * Make it run with Dart's official js-interop package and independent to Rikulo's code.
-
 ##Notes to Contributors
 
 ###Create Addons
 
 Rikulo is easy to extend. The simplest way to enhance Rikulo is to [create a new repository](https://help.github.com/articles/create-a-repo) and add your own great widgets and libraries to it.
 
-###Fork Rikulo
+###Fork Rikulo Gap
 
 If you'd like to contribute back to the core, you can [fork this repository](https://help.github.com/articles/fork-a-repo) and send us a pull request, when it is ready.
 
