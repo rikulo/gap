@@ -4,9 +4,9 @@
  
 * [Home](http://rikulo.org)
 * [Documentation](http://docs.rikulo.org/rikulo/latest/Rikulo_Gap/)
-* [API Reference](http://api.rikulo.org/rikulo-gap/latest)
+* [API Reference](http://api.rikulo.org/gap/latest)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
-* [Issues](https://github.com/rikulo/rikulo-gap/issues)
+* [Issues](https://github.com/rikulo/gap/issues)
 
 Rikulo Gap is distributed under the Apache 2.0 License.
 
@@ -27,7 +27,7 @@ To install stuff that is still in development, add this to your `pubspec.yam`:
 
     dependencies:
       rikulo_gap:
-        git: git://github.com/rikulo/rikulo-gap.git
+        git: git://github.com/rikulo/gap.git
 
 For more information, please refer to [Pub: Dependencies](http://pub.dartlang.org/doc/pubspec.html#dependencies).
 
