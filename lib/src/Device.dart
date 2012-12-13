@@ -2,6 +2,8 @@
 //History: Wed, May 2, 2012  12:32:56 PM
 // Author: henrichen
 
+part of rikulo_device;
+
 /** Singleton Device. */
 Device device;
 
@@ -134,7 +136,7 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
     _injectJavaScriptSrc(serviceUri); //load "cordova.js" asynchronously
 
   //wait cordova.js to be loaded. Try every 10 ms, try total 180 seconds
-  Future<bool> loaded = JSUtil.doWhenReady(_cordovaLoaded, 50, 180000);
+  Future<bool> loaded = JsUtil.doWhenReady(_cordovaLoaded, 50, 180000);
 
   //prepare the device-ready callback
   Completer cmpl = new Completer();

@@ -2,6 +2,8 @@
 //History: Mon, May 21, 2012  02:44:12 PM
 // Author: henrichen
 
+part of rikulo_capture;
+
 /** Options used with [Capture.captureAudio] method. */
 class CaptureAudioOptions {
   /** The maximum number of audio clips the device user can record in a single capture operation; default to 1; */

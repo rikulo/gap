@@ -5,8 +5,8 @@
 library rikulo_device;
 
 import 'dart:html';
-import 'package:js/js.dart' as js;
 import 'package:rikulo_commons/html.dart';
-
+import 'package:rikulo_commons/js.dart';
+import 'package:js/js.dart' as js;
 part 'src/Device.dart';
 

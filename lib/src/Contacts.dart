@@ -2,6 +2,8 @@
 //History: Mon, May 14, 2012  02:28:13 PM
 // Author: henrichen
 
+part of rikulo_contacts;
+
 /** onSuccess callback function that returns the Contact List */
 typedef ContactsSuccessCB(List<Contact> contacts);
 /** onError callback function if fail getting the Contact List */
@@ -56,7 +58,7 @@ class Contacts {
       };
       var e0 = (p) => error(new ContactError.fromProxy(p));
       var opts = js.map(contactOptions._toMap());
-      var jsfns = JSUtil.newCallbackOnceGroup('con', [s0, e0], [1, 1]);
+      var jsfns = JsUtil.newCallbackOnceGroup('con', [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _contacts.find(fs, ok, fail, opts);

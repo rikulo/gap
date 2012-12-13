@@ -8,5 +8,6 @@ authors:
 - Henri Chen <henrichen@rikulo.org>
 homepage: http://rikulo.org
 dependencies:
-  js: '0.0.7'
-  rikulo_commons:
+  js: any
+  rikulo: { git: git://github.com/rikulo/rikulo.git }
+  rikulo_commons: { git: git://github.com/rikulo/commons.git }

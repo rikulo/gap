@@ -1,6 +1,9 @@
 //Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 //History: Fri, May 18, 2012  03:31:33 PM
 // Author: henrichen
+
+part of rikulo_notification;
+
 typedef NotificationAlertCallback();
 typedef NotificationConfirmCallback(int buttonId);
 

@@ -2,6 +2,8 @@
 //History: Fri, May 11, 2012  10:21:52 AM
 // Author: henrichen
 
+part of rikulo_compass;
+
 /** Options used with [Compass.watchHeading] method. */
 class CompassOptions {
   /** interval in milliseconds to retrieve CompassHeading back; Default: 100 */

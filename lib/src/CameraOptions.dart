@@ -2,6 +2,8 @@
 //History: Wed, May 9, 2012  09:12:33 AM
 // Author: henrichen
 
+part of rikulo_camera;
+
 /** Options used with [Camera]. */
 class CameraOptions {
   /** The picture quality(0 ~ 100); default: 100. */

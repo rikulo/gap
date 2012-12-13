@@ -2,6 +2,8 @@
 //History: Fri, May 11, 2012  10:11:22 AM
 // Author: henrichen
 
+part of rikulo_compass;
+
 /** The Compass heading information */
 class CompassHeading {
   /** 0 ~ 359.99 degree at a single moment of time */

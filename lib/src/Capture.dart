@@ -2,6 +2,8 @@
 //History: Mon, May 21, 2012  02:44:12 PM
 // Author: henrichen
 
+part of rikulo_capture;
+
 /** onSuccess callback function that returns the captured media */
 typedef CaptureSuccessCB(List<MediaFile> mediaFiles);
 
@@ -46,7 +48,7 @@ class Capture {
     js.scoped(() {
       var s0 = (p) => success(_toFiles(p));
       var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
+      var jsfns = JsUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());
@@ -60,7 +62,7 @@ class Capture {
     js.scoped(() {
       var s0 = (p) => success(_toFiles(p));
       var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
+      var jsfns = JsUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());
@@ -74,7 +76,7 @@ class Capture {
     js.scoped(() {
       var s0 = (p) => success(_toFiles(p));
       var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
+      var jsfns = JsUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());

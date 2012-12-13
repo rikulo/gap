@@ -2,6 +2,8 @@
 //History: Fri, May 18, 2012  09:18:11 AM
 // Author: henrichen
 
+part of rikulo_geolocation;
+
 /** The Geolocation position */
 class Position {
   final Coordinates coords;

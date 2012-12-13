@@ -2,6 +2,8 @@
 //History: Mon, May 21, 2012  03:51:44 PM
 // Author: henrichen
 
+part of rikulo_capture;
+
 /** The media file data */
 class MediaFileData {
   /** the actual format of the audio/video contents */

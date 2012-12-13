@@ -2,6 +2,8 @@
 //History: Mon, May 14, 2012  02:28:13 PM
 // Author: henrichen
 
+part of rikulo_contacts;
+
 /** Options used with [Contacts.find] method.*/
 class ContactsFindOptions {
   /** The search string used to filter Contacts; default "" */

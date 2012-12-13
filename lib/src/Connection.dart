@@ -2,6 +2,8 @@
 //History: Fri, May 18, 2012  04:56:12 PM
 // Author: henrichen
 
+part of rikulo_connection;
+
 /** Singleton Connection. */
 Connection connection = new Connection._internal();
 

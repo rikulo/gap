@@ -2,6 +2,8 @@
 //History: Fri, May 18, 2012  09:17:04 AM
 // Author: henrichen
 
+part of rikulo_geolocation;
+
 /** Options used with [Geolocation.getCurrentPosition] and
  * [Geolocation.watchPosition] methods.
  */

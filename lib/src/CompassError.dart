@@ -2,6 +2,8 @@
 //History: Fri, Oct 12, 2012  06:42:26 PM
 // Author: henrichen
 
+part of rikulo_compass;
+
 /** Error returned when failed to get the heading information from the
  * [Compass] service.
  */

@@ -2,6 +2,8 @@
 //History: Mon, Oct 15, 2012  10:26:33 AM
 // Author: henrichen
 
+part of rikulo_contacts;
+
 /** onSuccess callback function that returns the Contact */
 typedef ContactSuccessCB(Contact contact);
 /** onError callback function if fail getting the Contact */
@@ -62,7 +64,7 @@ class Contact {
     js.scoped(() {
       var s0 = (p) {success(this); js.release(_proxy);};
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
+      var jsfns = JsUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _proxy.remove(ok, fail);
@@ -86,7 +88,7 @@ class Contact {
         success(this);
       };
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
+      var jsfns = JsUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _updateProxy();

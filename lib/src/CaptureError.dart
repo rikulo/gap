@@ -2,6 +2,8 @@
 //History: Mon, May 21, 2012  02:32:31 PM
 // Author: henrichen
 
+part of rikulo_capture;
+
 /** Error returned when failed to capture the require media */
 class CaptureError {
   static const int CAPTURE_INTERNAL_ERR = 0;

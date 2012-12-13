@@ -2,6 +2,8 @@
 //History: Thu, May 3, 2012  11:22:40 AM
 // Author: henrichen, tomyeh
 
+part of rikulo_accelerometer;
+
 /** The acecleration information. When a device lying flat on a table and
  * facing up, the value is x = 0, y = 0, and z = 9.81 (one gravity in
  * meter/sec^2)

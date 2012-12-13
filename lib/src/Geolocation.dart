@@ -2,6 +2,8 @@
 //History: Fri, Apr 27, 2012  10:26:33 AM
 // Author: henrichen, tomyeh
 
+part of rikulo_geolocation;
+
 /** onSuccess callback function that returns the Position information */
 typedef GeolocationSuccessCB(Position pos);
 /** onError callback function if fail getting the Positioninformation */
@@ -36,7 +38,7 @@ class Geolocation {
     js.scoped(() {
       var s0 = (p) => success(new Position.fromProxy(p));
       var e0 = (p) => error(new PositionError.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
+      List jsfns = JsUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _geolocation.getCurrentPosition(ok, fail);
@@ -62,7 +64,7 @@ class Geolocation {
       var fail = e0 == null ? null : new js.Callback.many(e0);
       var opts = options == null ? null : js.map(options._toMap());
       var id = "geo_${geolocation.watchPosition(ok, fail, opts)}";
-      JSUtil.addCallbacks(id, [ok, fail]);
+      JsUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -76,7 +78,7 @@ class Geolocation {
   void clearWatch(var watchID) {
     js.scoped(() {
       _geolocation.clearWatch(watchID.substring(4));
-      JSUtil.delCallbacks(watchID);
+      JsUtil.delCallbacks(watchID);
     });
   }
 }

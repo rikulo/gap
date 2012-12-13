@@ -2,6 +2,8 @@
 //History: Fri, Apr 27, 2012  10:26:33 AM
 // Author: henrichen, tomyeh
 
+part of rikulo_accelerometer;
+
 /** onSuccess callback function that returns the Acceleration information */
 typedef AccelerometerSuccessCB(Acceleration accel);
 /** onError callback function if fail getting the acceleration information */
@@ -35,7 +37,7 @@ class Accelerometer {
                               AccelerometerErrorCB error) {
     js.scoped(() {
       var s0 = (p) => success(new Acceleration.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
+      List jsfns = JsUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _accelerometer.getCurrentAcceleration(ok, fail);
@@ -59,7 +61,7 @@ class Accelerometer {
       var fail = new js.Callback.many(error);
       var opts = options == null ? null : js.map(options._toMap());
       var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
-      JSUtil.addCallbacks(id, [ok, fail]);
+      JsUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -73,7 +75,7 @@ class Accelerometer {
   void clearWatch(var watchID) {
     js.scoped(() {
       _accelerometer.clearWatch(watchID.substring(4));
-      JSUtil.delCallbacks(watchID);
+      JsUtil.delCallbacks(watchID);
     });
   }
 }

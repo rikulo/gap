@@ -2,6 +2,8 @@
 //History: Mon, May 14, 2012  02:28:13 PM
 // Author: henrichen
 
+part of rikulo_contacts;
+
 /** Error returned when get the [Contacts] information. */
 class ContactError {
   //constant value based on cordova's android implementation

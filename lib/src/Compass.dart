@@ -2,6 +2,8 @@
 //History: Fri, Apr 27, 2012  10:26:33 AM
 // Author: henrichen, tomyeh
 
+part of rikulo_compass;
+
 /** onSuccess callback function that returns the heading information */
 typedef CompassSuccessCB(CompassHeading heading);
 /** onError callback function if fail getting the heading information */
@@ -37,7 +39,7 @@ class Compass {
     js.scoped(() {
       var s0 = (p) => success(new CompassHeading.fromProxy(p));
       var e0 = (p) => error(new CompassError.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("cmp", [s0, e0], [1, 1]);
+      List jsfns = JsUtil.newCallbackOnceGroup("cmp", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       js.context.navigator.compass.getCurrentHeading(ok, fail);
@@ -62,7 +64,7 @@ class Compass {
       var fail = new js.Callback.many(e0);
       var opts = options == null ? null : js.map(options._toMap());
       var id = "cmp_${js.context.navigator.compass.watchHeading(ok, fail, opts)}";
-      JSUtil.addCallbacks(id, [ok, fail]);
+      JsUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -76,7 +78,7 @@ class Compass {
   void clearWatch(var watchID) {
     js.scoped(() {
       js.context.navigator.compass.clearWatch(watchID.substring(4));
-      JSUtil.delCallbacks(watchID);
+      JsUtil.delCallbacks(watchID);
     });
   }
 }
