@@ -9,5 +9,5 @@ authors:
 homepage: http://rikulo.org
 dependencies:
   js: any
-  rikulo: { git: git://github.com/rikulo/rikulo.git }
-  rikulo_commons: { git: git://github.com/rikulo/commons.git }
+  rikulo: any
+  rikulo_commons: any
