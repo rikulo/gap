@@ -6,7 +6,6 @@ library rikulo_capture;
 
 import 'dart:html';
 import 'package:js/js.dart' as js;
-import 'package:rikulo/html.dart';
 import 'package:rikulo_commons/js.dart';
 import 'device.dart';
 
