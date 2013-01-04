@@ -182,9 +182,11 @@ bool _cordovaLoaded() {
       var cordova = ctx['cordova'];
       if(cordova['require'] != null) {
         var channel = cordova['require']("cordova/channel");
-        if (!channel.onDOMContentLoaded.fired) {
+        //registered but event not fired yet
+        if (channel.onDOMContentLoaded['fired'] == false) //Cordova 2.1 and before
           channel.onDOMContentLoaded.fire();
-        }
+        else if (channel.onDOMContentLoaded['state'] == 1) //Cordova 2.2
+          channel.onDOMContentLoaded.fire();
       }
     }
     return ctx['cordova'] != null;
@@ -203,7 +205,7 @@ bool _deviceReady() {
         var len = features.length;
         for (int j = 0; j < len; ++j) {
           var f = features[j];
-          if (!f.fired) return false;
+          if (f['fired'] == false) return false;
         }
       }
     }
