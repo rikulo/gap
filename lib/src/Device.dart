@@ -153,7 +153,11 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
     if (ready) {
       //call/register the device-ready callback
       if (_deviceReady())
-        _doDeviceReady();
+        try {
+          _doDeviceReady();
+        } catch (exp) {
+          cmpl.completeException(exp);
+        }
       else
         _addEventListener("deviceready", _doDeviceReady, true);
     } else //time out, throw exception.
