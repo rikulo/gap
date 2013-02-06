@@ -10,4 +10,4 @@ homepage: http://rikulo.org
 dependencies:
   js: any
   rikulo_commons: any
-  rikulo: any
+  rikulo_ui: any
