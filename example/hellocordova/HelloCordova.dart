@@ -1,4 +1,4 @@
-import 'package:rikulo/view.dart';
+import 'package:rikulo_ui/view.dart';
 import 'package:rikulo_gap/device.dart';
 import 'package:rikulo_gap/accelerometer.dart';
 
