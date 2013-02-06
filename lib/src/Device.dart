@@ -156,12 +156,12 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
         try {
           _doDeviceReady();
         } catch (exp) {
-          cmpl.completeException(exp);
+          cmpl.completeError(exp);
         }
       else
         _addEventListener("deviceready", _doDeviceReady, true);
     } else //time out, throw exception.
-      cmpl.completeException(
+      cmpl.completeError(
           new RuntimeError("Time out! Fail to enable the device."));
   });
 

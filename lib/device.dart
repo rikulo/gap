@@ -5,6 +5,7 @@
 library rikulo_device;
 
 import 'dart:html';
+import 'dart:async';
 import 'package:rikulo_commons/js.dart';
 import 'package:js/js.dart' as js;
 
