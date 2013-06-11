@@ -127,7 +127,7 @@ class Device {
  */
 Future<Device> enableDeviceAccess([String serviceUri = "cordova.js"])
 => device == null ?
-    _doWhenDeviceReady(serviceUri) : new Future.immediate(device);
+    _doWhenDeviceReady(serviceUri) : new Future.value(device);
 
 //wait Cordova ready
 Future<Device> _doWhenDeviceReady(String serviceUri) {
@@ -136,7 +136,7 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
     _injectJavaScriptSrc(serviceUri); //load "cordova.js" asynchronously
 
   //wait cordova.js to be loaded. Try every 10 ms, try total 180 seconds
-  Future<bool> loaded = JsUtil.doWhenReady(_cordovaLoaded, 50, 180000);
+  Future<bool> loaded = JSUtil.doWhenReady(_cordovaLoaded, 50, 180000);
 
   //prepare the device-ready callback
   Completer cmpl = new Completer();
@@ -156,13 +156,13 @@ Future<Device> _doWhenDeviceReady(String serviceUri) {
         try {
           _doDeviceReady();
         } catch (exp) {
-          cmpl.completeException(exp);
+          cmpl.completeError(exp);
         }
       else
         _addEventListener("deviceready", _doDeviceReady, true);
     } else //time out, throw exception.
-      cmpl.completeException(
-          new RuntimeError("Time out! Fail to enable the device."));
+      cmpl.completeError(
+          new StateError("Time out! Fail to enable the device."));
   });
 
   return cmpl.future;

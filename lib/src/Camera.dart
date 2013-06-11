@@ -21,7 +21,7 @@ class Camera {
 
   Camera._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _camera = js.context.navigator.camera;
       js.retain(_camera);
@@ -36,7 +36,7 @@ class Camera {
   void getPicture(CameraSuccessCB success,
       CameraErrorCB error, [CameraOptions options]) {
     js.scoped(() {
-      var jsfns = JsUtil.newCallbackOnceGroup("cam", [success, error], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("cam", [success, error], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       var opts = options == null ? null : js.map(options._toMap());
@@ -52,7 +52,7 @@ class Camera {
    */
   void cleanup(CleanupSuccessCB success, CameraErrorCB error) {
     js.scoped(() {
-      var jsfns = JsUtil.newCallbackOnceGroup("cam", [success, error], [0, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("cam", [success, error], [0, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _camera.cleanup(ok, fail);

@@ -20,7 +20,7 @@ class Notification {
 
   Notification._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _notification = js.context.navigator.notification;
       js.retain(_notification);

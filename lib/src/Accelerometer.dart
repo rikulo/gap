@@ -22,7 +22,7 @@ class Accelerometer {
 
   Accelerometer._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _accelerometer = js.context.navigator.accelerometer;
       js.retain(_accelerometer);
@@ -37,7 +37,7 @@ class Accelerometer {
                               AccelerometerErrorCB error) {
     js.scoped(() {
       var s0 = (p) => success(new Acceleration.fromProxy(p));
-      List jsfns = JsUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
+      List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _accelerometer.getCurrentAcceleration(ok, fail);
@@ -61,7 +61,7 @@ class Accelerometer {
       var fail = new js.Callback.many(error);
       var opts = options == null ? null : js.map(options._toMap());
       var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
-      JsUtil.addCallbacks(id, [ok, fail]);
+      JSUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -75,7 +75,7 @@ class Accelerometer {
   void clearWatch(var watchID) {
     js.scoped(() {
       _accelerometer.clearWatch(watchID.substring(4));
-      JsUtil.delCallbacks(watchID);
+      JSUtil.delCallbacks(watchID);
     });
   }
 }

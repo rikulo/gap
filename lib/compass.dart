@@ -6,7 +6,7 @@ library rikulo_compass;
 
 import 'dart:html';
 import 'package:js/js.dart' as js;
-import 'package:rikulo_commons/js.dart';
+import 'js.dart';
 import 'device.dart';
 
 part 'src/CompassHeading.dart';

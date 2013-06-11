@@ -22,7 +22,7 @@ class Geolocation {
 
   Geolocation._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _geolocation = js.context.navigator.geolocation;
       js.retain(_geolocation);
@@ -38,7 +38,7 @@ class Geolocation {
     js.scoped(() {
       var s0 = (p) => success(new Position.fromProxy(p));
       var e0 = (p) => error(new PositionError.fromProxy(p));
-      List jsfns = JsUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
+      List jsfns = JSUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _geolocation.getCurrentPosition(ok, fail);
@@ -64,7 +64,7 @@ class Geolocation {
       var fail = e0 == null ? null : new js.Callback.many(e0);
       var opts = options == null ? null : js.map(options._toMap());
       var id = "geo_${geolocation.watchPosition(ok, fail, opts)}";
-      JsUtil.addCallbacks(id, [ok, fail]);
+      JSUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -78,7 +78,7 @@ class Geolocation {
   void clearWatch(var watchID) {
     js.scoped(() {
       _geolocation.clearWatch(watchID.substring(4));
-      JsUtil.delCallbacks(watchID);
+      JSUtil.delCallbacks(watchID);
     });
   }
 }

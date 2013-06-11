@@ -22,7 +22,7 @@ class Contact {
   List<ContactAddress> addresses; //array of address of this Contact
   List<ContactField> ims; //array of im addresses of this Contact
   List<ContactOrganization> organizations; //array of organizations of this Contact
-  Date birthday; //birthday of this Contact
+  DateTime birthday; //birthday of this Contact
   String note; //note about this Contact
   List<ContactField> photos; //array of photos of this Contact
   List<ContactField> categories; //array of user defined categories by this Contact
@@ -64,7 +64,7 @@ class Contact {
     js.scoped(() {
       var s0 = (p) {success(this); js.release(_proxy);};
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = JsUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _proxy.remove(ok, fail);
@@ -88,7 +88,7 @@ class Contact {
         success(this);
       };
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = JsUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _updateProxy();

@@ -22,7 +22,7 @@ class Compass {
 
   Compass._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _compass = js.context.navigator.compass;
       js.retain(_compass);
@@ -39,7 +39,7 @@ class Compass {
     js.scoped(() {
       var s0 = (p) => success(new CompassHeading.fromProxy(p));
       var e0 = (p) => error(new CompassError.fromProxy(p));
-      List jsfns = JsUtil.newCallbackOnceGroup("cmp", [s0, e0], [1, 1]);
+      List jsfns = JSUtil.newCallbackOnceGroup("cmp", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       js.context.navigator.compass.getCurrentHeading(ok, fail);
@@ -64,7 +64,7 @@ class Compass {
       var fail = new js.Callback.many(e0);
       var opts = options == null ? null : js.map(options._toMap());
       var id = "cmp_${js.context.navigator.compass.watchHeading(ok, fail, opts)}";
-      JsUtil.addCallbacks(id, [ok, fail]);
+      JSUtil.addCallbacks(id, [ok, fail]);
       return id;
     });
   }
@@ -78,7 +78,7 @@ class Compass {
   void clearWatch(var watchID) {
     js.scoped(() {
       js.context.navigator.compass.clearWatch(watchID.substring(4));
-      JsUtil.delCallbacks(watchID);
+      JSUtil.delCallbacks(watchID);
     });
   }
 }
