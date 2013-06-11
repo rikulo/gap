@@ -22,7 +22,7 @@ class Contacts {
 
   Contacts._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _contacts = js.context.navigator.contacts;
       js.retain(_contacts);
@@ -58,7 +58,7 @@ class Contacts {
       };
       var e0 = (p) => error(new ContactError.fromProxy(p));
       var opts = js.map(contactOptions._toMap());
-      var jsfns = JsUtil.newCallbackOnceGroup('con', [s0, e0], [1, 1]);
+      var jsfns = JSUtil.newCallbackOnceGroup('con', [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _contacts.find(fs, ok, fail, opts);

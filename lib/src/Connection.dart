@@ -25,7 +25,7 @@ class Connection {
 
   Connection._internal() {
     if (device == null)
-      throw new RuntimeError('device is not ready yet.');
+      throw new StateError('device is not ready yet.');
     js.scoped(() {
       _connection = js.context.navigator.network.connection;
       js.retain(_connection);

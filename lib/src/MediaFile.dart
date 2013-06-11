@@ -19,7 +19,7 @@ class MediaFile {
   /** MIME type of this file */
   String type;
   /** The date/time this file was last modified */
-  Date date;
+  DateTime date;
   /** The file size in bytes */
   int size;
 
@@ -39,7 +39,7 @@ class MediaFile {
   void getFormatData(MediaFileDataSuccessCB success, [MediaFileDataErrorCB error]) {
     js.scoped(() {
       var s0 = (p) => success(new MediaFileData.fromProxy(p));
-      List jsfns = JsUtil.newCallbackOnceGroup("cap", [s0, error], [1, 0]);
+      List jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, error], [1, 0]);
       var ok = jsfns[0];
       var fail = jsfns[1];
       _proxy.getFormatData(ok, fail);

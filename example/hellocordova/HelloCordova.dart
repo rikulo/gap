@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:rikulo_ui/view.dart';
 import 'package:rikulo_gap/device.dart';
 import 'package:rikulo_gap/accelerometer.dart';
@@ -23,16 +24,12 @@ showAcceleration() {
 }
 
 void main() {
-  //enable the device
-  Future<Device> enable = enableDeviceAccess();
-
   //when device is enabled and ready
-  enable.then((device) => showAcceleration());
-
-  //if failed to enable the device and/or timeout!
-  enable.handleException((ex) {
+  enableDeviceAccess()
+  .then((device) => showAcceleration())
+  .catchError((ex) {
+    //if failed to enable the device and/or timeout!
     print("Fail to enable the device.");
     return true;
   });
 }
-
