@@ -6,7 +6,7 @@ library rikulo_js;
 
 import "dart:html";
 import "dart:async";
-import "package:js/js.dart" as js;
+import "dart:js" as js;
 import "dart:collection" show HashMap;
 
 /** Utilities for JavaScript handling.
@@ -29,7 +29,7 @@ class JSUtil {
    * + [uri] the JavaScript file uri
    */
   static void removeJavaScriptSrc(String uri) {
-    ScriptElement elm = query("script[src='${uri}']");
+    ScriptElement elm = querySelector("script[src='${uri}']");
     if (elm != null)
       elm.remove();
   }
@@ -74,7 +74,8 @@ class JSUtil {
    * + [argnums] - the number of arguments for each corresponding callback.
    */
   static newCallbackOnceGroup(var name, List callbacks, List<int> argnums) {
-    _callbackId = (++_callbackId as int) & 0xffffffff; //TODO: Issue 9957
+    _callbackId = (++_callbackId) & 0xffffffff; //TODO: Issue 9957
+    // remove as int after callbackId
     var id = _unique(name, _callbackId);
     List results = new List();
     for(int j = 0, len = callbacks.length; j < len; ++j) {
@@ -83,52 +84,52 @@ class JSUtil {
       var jsfn;
       switch(n) {
         case 0 :
-          jsfn = new js.Callback.many(() {
+          jsfn = () {
             try {
               return f();
             } finally {
               delCallbacks(id);
             }
-          });
+          };          
           break;
 
         case 1 :
-          jsfn = new js.Callback.many((a1) {
+          jsfn = (a1) {
             try {
               return f(a1);
             } finally {
               delCallbacks(id);
             }
-          });
+          };
           break;
         case 2 :
-          jsfn = new js.Callback.many((a1,a2) {
+          jsfn = (a1,a2) {
             try {
               return f(a1,a2);
             } finally {
               delCallbacks(id);
             }
-          });
+          };
           break;
 
         case 3 :
-          jsfn = new js.Callback.many((a1,a2,a3) {
+          jsfn = (a1,a2,a3) {
             try {
               return f(a1,a2,a3);
             } finally {
               delCallbacks(id);
             }
-          });
+          };
           break;
 
         case 4 :
-          jsfn = new js.Callback.many((a1,a2,a3,a4) {
+          jsfn = (a1,a2,a3,a4) {
             try {
               return f(a1,a2,a3,a4);
             } finally {
               delCallbacks(id);
             }
-          });
+          };
           break;
 
         default:
@@ -157,7 +158,8 @@ class JSUtil {
       _putMap(map, tagname, kidmap.isEmpty ? kidval : kidmap);
       return map;
     } else if (node is Text)
-      return (node as Text).wholeText;
+      //node as Text -> node
+      return node.wholeText;
   }
 
   static void _putMap(Map map, String tagname, var value) {

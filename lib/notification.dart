@@ -5,7 +5,7 @@
 library rikulo_notification;
 
 import 'dart:html';
-import 'package:js/js.dart' as js;
+import 'dart:js' as js;
 import 'device.dart';
 
 part 'src/Notification.dart';

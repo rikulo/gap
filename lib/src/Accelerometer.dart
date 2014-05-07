@@ -23,10 +23,7 @@ class Accelerometer {
   Accelerometer._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _accelerometer = js.context.navigator.accelerometer;
-      js.retain(_accelerometer);
-    });
+    _accelerometer = js.context.navigator.accelerometer;
   }
 
   /**
@@ -35,13 +32,12 @@ class Accelerometer {
    */
   void getCurrentAcceleration(AccelerometerSuccessCB success,
                               AccelerometerErrorCB error) {
-    js.scoped(() {
-      var s0 = (p) => success(new Acceleration.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _accelerometer.getCurrentAcceleration(ok, fail);
-    });
+    
+    var s0 = (p) => success(new Acceleration.fromProxy(p));
+    List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
+    var ok = jsfns[0];
+    var fail = jsfns[1];
+    _accelerometer.getCurrentAcceleration(ok, fail);
   }
 
   /**
@@ -55,15 +51,14 @@ class Accelerometer {
    */
   watchAcceleration(AccelerometerSuccessCB success,
                     AccelerometerErrorCB error, [AccelerometerOptions options]) {
-    return js.scoped(() {
-      var s0 = (p) => success(new Acceleration.fromProxy(p));
-      var ok = new js.Callback.many(s0);
-      var fail = new js.Callback.many(error);
-      var opts = options == null ? null : js.map(options._toMap());
-      var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
-      JSUtil.addCallbacks(id, [ok, fail]);
-      return id;
-    });
+    var s0 = (p) => success(new Acceleration.fromProxy(p));
+    //var ok = new js.Callback.many(s0);
+    var ok = s0;
+    var fail = error;
+    var opts = options == null ? null : js.map(options._toMap());
+    var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
+    JSUtil.addCallbacks(id, [ok, fail]);
+    return id;
   }
 
   /**
@@ -73,9 +68,7 @@ class Accelerometer {
    * + [watchID] - the watch ID got from [watchAcceleration] method.
    */
   void clearWatch(var watchID) {
-    js.scoped(() {
-      _accelerometer.clearWatch(watchID.substring(4));
-      JSUtil.delCallbacks(watchID);
-    });
+    _accelerometer.clearWatch(watchID.substring(4));
+    JSUtil.delCallbacks(watchID);
   }
 }

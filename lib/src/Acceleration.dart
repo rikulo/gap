@@ -14,11 +14,11 @@ class Acceleration {
   final num z;
   final int timestamp;
 
-  Acceleration.fromProxy(js.Proxy p)
-      : this.x = p.x,
-        this.y = p.y,
-        this.z = p.z,
-        this.timestamp = p.timestamp;
+  Acceleration.fromProxy(js.JsObject p)
+      : this.x = p['x'],
+        this.y = p['y'],
+        this.z = p['z'],
+        this.timestamp = p['timestamp'];
 
   String toString() => "($timestamp: $x, $y, $z)";
 }

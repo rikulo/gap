@@ -5,7 +5,7 @@
 library rikulo_connection;
 
 import 'dart:html';
-import 'package:js/js.dart' as js;
+import 'dart:js' as js;
 import 'js.dart';
 import 'device.dart';
 
