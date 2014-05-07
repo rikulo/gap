@@ -14,17 +14,17 @@ Notification notification = new Notification._internal();
  * Access to the device notification facility.
  */
 class Notification {
-  js.Proxy _notification;
+  js.JsObject _notification;
 
   factory Notification() => notification;
 
   Notification._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _notification = js.context.navigator.notification;
-      js.retain(_notification);
-    });
+//    js.scoped(() {
+      _notification = js.context.callMethod(js.context['navigator']['notification']);
+//      js.retain(_notification);
+//    });
   }
 
   /** Show a custom alert/dialog box.
@@ -35,10 +35,10 @@ class Notification {
    */
   alert(String message, NotificationAlertCallback alertCallback,
       [String title = 'Alert', String buttonName = 'OK']) {
-    js.scoped(() {
-      var s = new js.Callback.once(alertCallback);
-      _notification.alert(message, s, title, buttonName);
-    });
+//    js.scoped(() {
+      var s = alertCallback;
+      _notification.callMethod(js.context['alert'], [message, s, title, buttonName]);
+//    });
   }
 
   /** Show a customizable confirmation dialog box.
@@ -49,18 +49,18 @@ class Notification {
    */
   confirm(String message, NotificationConfirmCallback confirmCallback,
           [String title = 'Confirm', String buttonLabels = 'OK,Cancel']) {
-    js.scoped(() {
-      var s = new js.Callback.once(confirmCallback);
-      _notification.confirm(message, s, title, buttonLabels);
-    });
+//    js.scoped(() {
+      var s = confirmCallback;
+      _notification.callMethod(js.context['confirm'], [message, s, title, buttonLabels]);
+//    });
   }
 
   /** Play a beep sound.
    * + [times] the number of times to beep.
    */
-  beep(int times) => js.scoped(() => _notification.beep(times));
+  beep(int times) =>  _notification.callMethod(js.context['beep'], [times]);
 
   /** Vibrates device the specified duration in milliseconds.
    */
-  vibrate(int milliseconds) => js.scoped(() => _notification.vibrate(milliseconds));
+  vibrate(int milliseconds) => _notification.callMethod(js.context['vibrate'], [milliseconds]);
 }

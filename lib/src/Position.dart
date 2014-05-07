@@ -9,9 +9,9 @@ class Position {
   final Coordinates coords;
   final int timestamp;
 
-  Position.fromProxy(js.Proxy p)
-      : this.coords = new Coordinates.fromProxy(p.coords),
-        this.timestamp = p.timestamp;
+  Position.fromProxy(js.JsObject p)
+      : this.coords = new Coordinates.fromProxy(p['coords']),
+        this.timestamp = p['timestamp'];
 
   String toString() => "($timestamp: $coords)";
 }
@@ -32,12 +32,12 @@ class Coordinates {
   /** Ground speed in meters per second */
   double speed;
 
-  Coordinates.fromProxy(js.Proxy p)
-      : this.latitude = p.latitude,
-        this.longitude = p.longitude,
-        this.altitude = p.altitude,
-        this.accuracy = p.accuracy,
-        this.altitudeAccuracy = p.altitudeAccuracy,
-        this.heading = p.heading,
-        this.speed = p.speed;
+  Coordinates.fromProxy(js.JsObject p)
+      : this.latitude = p['latitude'],
+        this.longitude = p['longitude'],
+        this.altitude = p['altitude'],
+        this.accuracy = p['accuracy'],
+        this.altitudeAccuracy = p['altitudeAccuracy'],
+        this.heading = p['heading'],
+        this.speed = p['speed'];
 }

@@ -16,17 +16,17 @@ Contacts contacts = new Contacts._internal();
  * Access to the contacts list of this device.
  */
 class Contacts {
-  js.Proxy _contacts;
+  js.JsObject _contacts;
 
   factory Contacts() => contacts;
 
   Contacts._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _contacts = js.context.navigator.contacts;
-      js.retain(_contacts);
-    });
+//    js.scoped(() {
+      _contacts = js.context['navigator']['contacts'];
+//      js.retain(_contacts);
+//    });
   }
 
   /**
@@ -34,10 +34,10 @@ class Contacts {
    * + [properties] the initial properties for the created [Contact].
    */
   Contact create(Map properties) {
-    js.scoped(() {
-      var props = js.map(properties);
-      return new Contact.fromProxy(_contacts.create(props));
-    });
+//    js.scoped(() {
+      var props = new js.JsObject.jsify(properties);
+      return new Contact.fromProxy(_contacts.callMethod(js.context['create'], [props]));
+//    });
   }
 
   /**
@@ -48,8 +48,8 @@ class Contacts {
   */
   void find(List<String> fields, ContactsSuccessCB success,
             ContactsErrorCB error, ContactsFindOptions contactOptions) {
-    js.scoped(() {
-      var fs = js.array(fields);
+//    js.scoped(() {
+      var fs = new js.JsObject.jsify(fields); //ask Tom!!!!!!!!!!
       var s0 = (p) {
         List<Contact> result = new List();
         for(var j = 0; j < p.length; ++j)
@@ -57,12 +57,12 @@ class Contacts {
         success(result);
       };
       var e0 = (p) => error(new ContactError.fromProxy(p));
-      var opts = js.map(contactOptions._toMap());
+      var opts = new js.JsObject.jsify(contactOptions._toMap());
       var jsfns = JSUtil.newCallbackOnceGroup('con', [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
-      _contacts.find(fs, ok, fail, opts);
-    });
+      _contacts.callMethod(js.context['find'], [fs, ok, fail, opts]);
+//    });
   }
 }
 

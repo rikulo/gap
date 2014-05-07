@@ -13,7 +13,7 @@ class PositionError {
   final int code;
   final String message;
 
-  PositionError.fromProxy(js.Proxy p)
-      : this.code = p.code,
-        this.message = p.message;
+  PositionError.fromProxy(js.JsObject p)
+      : this.code = p['code'],
+        this.message = p['message'];
 }
