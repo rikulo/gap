@@ -16,14 +16,15 @@ Accelerometer accelerometer = new Accelerometer._internal();
  * Capture device motion in x, y, and z direction.
  */
 class Accelerometer {
-  js.Proxy _accelerometer;
+  js.JsObject _accelerometer;
 
   factory Accelerometer() => accelerometer;
 
   Accelerometer._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    _accelerometer = js.context.navigator.accelerometer;
+    _accelerometer = js.context.callMethod(js.context['navigator']['accelerometer']);
+    //_accelerometer = js.context.navigator.accelerometer;
   }
 
   /**
@@ -37,7 +38,7 @@ class Accelerometer {
     List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
     var ok = jsfns[0];
     var fail = jsfns[1];
-    _accelerometer.getCurrentAcceleration(ok, fail);
+    _accelerometer.callMethod(js.context['getCurrentAcceleration'],[ok, fail]);
   }
 
   /**
@@ -55,8 +56,8 @@ class Accelerometer {
     //var ok = new js.Callback.many(s0);
     var ok = s0;
     var fail = error;
-    var opts = options == null ? null : js.map(options._toMap());
-    var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    var id = "acc_${_accelerometer.callMethod(js.context['watchAcceleration'], [ok, fail, opts])}";
     JSUtil.addCallbacks(id, [ok, fail]);
     return id;
   }
@@ -68,7 +69,7 @@ class Accelerometer {
    * + [watchID] - the watch ID got from [watchAcceleration] method.
    */
   void clearWatch(var watchID) {
-    _accelerometer.clearWatch(watchID.substring(4));
+    _accelerometer.callMethod(js.context['clearWatch'], [watchID.substring(4)]);
     JSUtil.delCallbacks(watchID);
   }
 }

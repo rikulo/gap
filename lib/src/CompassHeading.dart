@@ -15,11 +15,11 @@ class CompassHeading {
   /** the time in milliseconds the heading was determined */
   final int timestamp;
 
-  CompassHeading.fromProxy(js.Proxy p)
-      : this.magneticHeading = p.magneticHeading,
-        this.trueHeading= p.trueHeading,
-        this.headingAccuracy = p.headingAccuracy,
-        this.timestamp = p.timestamp;
+  CompassHeading.fromProxy(js.JsObject p)
+      : this.magneticHeading = p['magneticHeading'],
+        this.trueHeading= p['trueHeading'],
+        this.headingAccuracy = p['headingAccuracy'],
+        this.timestamp = p['timestamp'];
 
   String toString()
   => "($timestamp: $magneticHeading, $trueHeading, $headingAccuracy)";

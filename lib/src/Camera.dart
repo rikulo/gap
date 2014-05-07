@@ -15,17 +15,17 @@ Camera camera = new Camera._internal();
  * Access to the camera application of this device.
  */
 class Camera {
-  js.Proxy _camera;
+  js.JsObject _camera;
 
   factory Camera() => camera;
 
   Camera._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _camera = js.context.navigator.camera;
-      js.retain(_camera);
-    });
+    //js.scoped(() {
+      _camera = js.context['navigator']['camera'];
+    //js.retain(_camera);
+    //});
   }
 
   /**
@@ -35,13 +35,13 @@ class Camera {
   */
   void getPicture(CameraSuccessCB success,
       CameraErrorCB error, [CameraOptions options]) {
-    js.scoped(() {
+    //js.scoped(() {
       var jsfns = JSUtil.newCallbackOnceGroup("cam", [success, error], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
-      var opts = options == null ? null : js.map(options._toMap());
-      _camera.getPicture(ok, fail, opts);
-    });
+      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+      _camera.callMethod(js.context['getPicture'], [ok, fail, opts]);
+    //});
   }
 
   /**
@@ -51,11 +51,12 @@ class Camera {
    * to [DestinationType.FILE_URI].
    */
   void cleanup(CleanupSuccessCB success, CameraErrorCB error) {
-    js.scoped(() {
+    //js.scoped(() {
       var jsfns = JSUtil.newCallbackOnceGroup("cam", [success, error], [0, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
-      _camera.cleanup(ok, fail);
-    });
+      _camera.callMethod(js.context['getPicture'], [ok, fail]);
+    // _camera.cleanup(ok, fail);
+    //});
   }
 }

@@ -19,20 +19,21 @@ class Connection {
   static const String CELL_4G = "4g";
   static const String NONE =  "none";
 
-  js.Proxy _connection;
+  js.JsObject _connection;
 
   factory Connection() => connection;
 
   Connection._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _connection = js.context.navigator.network.connection;
-      js.retain(_connection);
-    });
+    //js.scoped(() {
+      _connection = js.context['navigator']['network']['connection'];
+      //js.retain(_connection);
+    //});
   }
 
   /** connection type */
-  String get type => js.scoped(() => _connection.type);
+  //String get type => js.scoped(() => _connection.type);
+  String get type => _connection['type'];
 }
 
