@@ -16,17 +16,17 @@ Geolocation geolocation = new Geolocation._internal();
  * Capture device motion in x, y, and z direction.
  */
 class Geolocation {
-  js.Proxy _geolocation;
+  js.JsObject _geolocation;
 
   factory Geolocation() => geolocation;
 
   Geolocation._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _geolocation = js.context.navigator.geolocation;
-      js.retain(_geolocation);
-    });
+//    js.scoped(() {
+      _geolocation = js.context['navigator']['geolocation'];
+//      js.retain(_geolocation);
+//    });
   }
 
   /**
@@ -35,14 +35,14 @@ class Geolocation {
    */
   void getCurrentPosition(GeolocationSuccessCB success,
                     [GeolocationErrorCB error, GeolocationOptions options]) {
-    js.scoped(() {
+//    js.scoped(() {
       var s0 = (p) => success(new Position.fromProxy(p));
       var e0 = (p) => error(new PositionError.fromProxy(p));
       List jsfns = JSUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
       var ok = jsfns[0];
       var fail = jsfns[1];
-      _geolocation.getCurrentPosition(ok, fail);
-    });
+      _geolocation.callMethod(js.context['getCurrentPosition'], [ok, fail]);
+//    });
   }
 
   /**
@@ -56,17 +56,17 @@ class Geolocation {
    */
   watchPosition(GeolocationSuccessCB success,
                     [GeolocationErrorCB error, GeolocationOptions options]) {
-    return js.scoped(() {
+    return () {
       var s0 = (p) => success(new Position.fromProxy(p));
       var e0 = error == null ?
           null : (p) => error(new PositionError.fromProxy(p));
-      var ok = new js.Callback.many(s0);
-      var fail = e0 == null ? null : new js.Callback.many(e0);
-      var opts = options == null ? null : js.map(options._toMap());
+      var ok = s0;
+      var fail = e0 == null ? null : e0;
+      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
       var id = "geo_${geolocation.watchPosition(ok, fail, opts)}";
       JSUtil.addCallbacks(id, [ok, fail]);
       return id;
-    });
+    };
   }
 
   /**
@@ -76,9 +76,9 @@ class Geolocation {
    * + [watchID] - the watch ID got from [watchPosition] method.
    */
   void clearWatch(var watchID) {
-    js.scoped(() {
-      _geolocation.clearWatch(watchID.substring(4));
+//    js.scoped(() {
+      _geolocation.callMethod(js.context['clearWatch'], [watchID.substring(4)]);
       JSUtil.delCallbacks(watchID);
-    });
+//    });
   }
 }

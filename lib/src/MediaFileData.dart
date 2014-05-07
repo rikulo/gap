@@ -17,10 +17,10 @@ class MediaFileData {
   /** The length of audio/video clip in seconds; image is always 0 */
   int duration;
 
-  MediaFileData.fromProxy(js.Proxy p)
-      : this.codecs = p.codecs,
-        this.bitrate = p.bitrate,
-        this.height = p.height,
-        this.width = p.width,
-        this.duration = p.duration;
+  MediaFileData.fromProxy(js.JsObject p)
+      : this.codecs = p['codecs'],
+        this.bitrate = p['bitrate'],
+        this.height = p['height'],
+        this.width = p['width'],
+        this.duration = p['duration'];
 }
