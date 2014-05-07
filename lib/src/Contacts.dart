@@ -49,7 +49,7 @@ class Contacts {
   void find(List<String> fields, ContactsSuccessCB success,
             ContactsErrorCB error, ContactsFindOptions contactOptions) {
 //    js.scoped(() {
-      var fs = new js.JsObject.jsify(fields); //ask Tom!!!!!!!!!!
+      var fs = new js.JsArray.from(fields); //ask Tom!!!!!!!!!!
       var s0 = (p) {
         List<Contact> result = new List();
         for(var j = 0; j < p.length; ++j)
