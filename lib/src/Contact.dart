@@ -103,14 +103,14 @@ class Contact {
     _jsObject['nickname'] = nickname;
     _jsObject['birthday'] = birthday;
     _jsObject['note'] = note;
-    _jsObject['phoneNumbers'] = js.array(phoneNumbers);
-    _jsObject['emails'] = js.array(emails);
-    _jsObject['addresses'] = js.array(addresses);
-    _jsObject['ims'] = js.array(ims);
-    _jsObject['organizations'] = js.array(organizations);
-    _jsObject['photos'] = js.array(photos);
-    _jsObject['categories'] = js.array(categories);
-    _jsObject['urls'] = js.array(urls);
+    _jsObject['phoneNumbers'] = new js.JsArray.from(phoneNumbers);
+    _jsObject['emails'] = new js.JsArray.from(emails);
+    _jsObject['addresses'] = new js.JsArray.from(addresses);
+    _jsObject['ims'] = new js.JsArray.from(ims);
+    _jsObject['organizations'] = new js.JsArray.from(organizations);
+    _jsObject['photos'] = new js.JsArray.from(photos);
+    _jsObject['categories'] = new js.JsArray.from(categories);
+    _jsObject['urls'] = new js.JsArray.from(urls);
   }
 
   List<ContactOrganization> _toOrganizations(js.JsObject p) {
