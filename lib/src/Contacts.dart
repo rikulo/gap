@@ -1,7 +1,3 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Mon, May 14, 2012  02:28:13 PM
-// Author: henrichen
-
 part of rikulo_contacts;
 
 /** onSuccess callback function that returns the Contact List */
@@ -18,27 +14,12 @@ Contacts contacts = new Contacts._internal();
 class Contacts {
   js.JsObject _contacts;
 
-  factory Contacts() => contacts;
-
   Contacts._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-//    js.scoped(() {
       _contacts = js.context['navigator']['contacts'];
-//      js.retain(_contacts);
-//    });
   }
 
-  /**
-   * Create a new Contact object but not persisted into contact DB yet.
-   * + [properties] the initial properties for the created [Contact].
-   */
-  Contact create(Map properties) {
-//    js.scoped(() {
-      var props = new js.JsObject.jsify(properties);
-      return new Contact.fromProxy(_contacts.callMethod(js.context['create'], [props]));
-//    });
-  }
 
   /**
   * Returns the Contacts queried by this method.
@@ -46,23 +27,19 @@ class Contacts {
   *   Contact id only if empty; return all fields if provide ["*"].
   * + [contactOptions] the filter string to apply the query.
   */
-  void find(List<String> fields, ContactsSuccessCB success,
-            ContactsErrorCB error, ContactsFindOptions contactOptions) {
-//    js.scoped(() {
-      var fs = new js.JsArray.from(fields); //ask Tom!!!!!!!!!!
+  Future<List<Contact>> find(List<String> fields, ContactsFindOptions contactOptions) {
+    Completer completer = new Completer();
+      var fs = new js.JsArray.from(fields);
       var s0 = (p) {
         List<Contact> result = new List();
         for(var j = 0; j < p.length; ++j)
-          result.add(new Contact.fromProxy(p[j]));
-        success(result);
+          result.add(new Contact._fromProxy(p[j]));
+        completer.complete(result);
       };
-      var e0 = (p) => error(new ContactError.fromProxy(p));
+      var e0 = (p) {completer.completeError(new ContactError._fromProxy(p));};
       var opts = new js.JsObject.jsify(contactOptions._toMap());
-      var jsfns = JSUtil.newCallbackOnceGroup('con', [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _contacts.callMethod(js.context['find'], [fs, ok, fail, opts]);
-//    });
+      _contacts.callMethod(js.context['find'], [fs, s0, e0, opts]);
+      return completer.future;
   }
 }
 

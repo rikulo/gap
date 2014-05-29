@@ -1,17 +1,5 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Mon, Oct 15, 2012  10:26:33 AM
-// Author: henrichen
-
 part of rikulo_contacts;
 
-/** onSuccess callback function that returns the Contact */
-typedef ContactSuccessCB(Contact contact);
-/** onError callback function if fail getting the Contact */
-typedef ContactErrorCB(ContactError error);
-
-/**
- * Retrieve device contact list.
- */
 class Contact {
   String id; //global unique identifier
   String displayName; //display name of this Contact
@@ -27,119 +15,86 @@ class Contact {
   List<ContactField> photos; //array of photos of this Contact
   List<ContactField> categories; //array of user defined categories by this Contact
   List<ContactField> urls;//array of web pages associated to this Contact
-
-  js.JsObject _jsObject;
-
-  Contact.fromProxy(js.JsObject p)
-      : this._jsObject = p,
-        this.id = p['id'],
-        this.displayName = p['displayName'],
-        this.name = new ContactName.fromProxy(p['name']),
-        this.nickname = p['nickname'],
-        this.birthday = p['birthday'],
-        this.note = p['.note'] {
-    this.phoneNumbers = _toFields(p['phoneNumbers']);
-    this.emails = _toFields(p['emails']);
-    this.addresses = _toAddresses(p['addresses']);
-    this.ims = _toFields(p['ims']);
-    this.organizations = _toOrganizations(p['organizations']);
-    this.photos = _toFields(p['photos']);
-    this.categories = _toFields(p['categories']);
-    this.urls = _toFields(p['urls']);
-
-    //js.retain(_proxy);
+  
+  Contact(ContactName this.name, {String this.displayName, String this.nickname, 
+    List<ContactField> this.phoneNumbers, List<ContactField> this.emails,
+    List<ContactAddress> this.addresses, List<ContactField> this.ims,
+    List<ContactOrganization> this.organizations, DateTime this.birthday,
+    String this.note, List<ContactField> this.photos,
+    List<ContactField> this.categories, List<ContactField> this.urls, String this.id}) {
   }
-
-//  void release() {
-//    js.scoped(() => js.release(_proxy));
-//  }
-
-  /** Returns a cloned Contact object except its id is set to null.
-   */
-//  Contact clone() => js.scoped(() => new Contact.fromProxy(_proxy.clone()));
-  Contact clone() => new Contact.fromProxy(_jsObject.callMethod(js.context['clone']));
+  
+  factory Contact._fromProxy(js.JsObject p) {
+    
+    return new Contact(new ContactName._fromProxy(p['name']), id: p['id'], nickname: p['nickname'], 
+        displayName: p['displatname'], phoneNumbers: _toFields(p['phoneNumbers']),
+        addresses: _toAddresses(p['address']), ims: _toFields(p['ims']),
+        organizations: _toOrganizations(p['organizations']), birthday: p['birthday'],
+        note: p['note'], photos: _toFields(p['photos']), categories: _toFields(p['categories']),
+        urls: _toFields(p['urls'])); 
+  }
+  
+  js.JsObject _toProxy() {
+    js.JsObject p = new js.JsObject(js.context['Contact']);
+    p['name'] = name._toProxy();
+    if (displayName == null)
+        p['displayName'] = name.formatted;
+    if (id != null);
+      p['id'] = id;
+    if (nickname != null)
+      p['nickname'] = nickname;
+    if (birthday != null)
+      p['birthday'] = birthday;
+    if (note != null)
+      p['note'] = note;
+    if (phoneNumbers != null)
+      p['phoneNumbers'] =_toFieldsProxy(phoneNumbers);
+    if (emails != null)
+      p['emails'] = _toFieldsProxy(emails);
+    if (addresses != null)
+      p['addresses'] = _toAddressesProxy(addresses);
+    if (ims != null)
+      p['ims'] = _toFieldsProxy(ims);
+    if (organizations != null)
+      p['organizations'] = _toOrganizationsProxy(organizations);
+    if (photos != null)
+      p['photos'] = _toFieldsProxy(photos);
+    if (categories != null)
+      p['categories'] = _toFieldsProxy(categories);
+    if (urls != null)
+      p['urls'] = _toFieldsProxy(urls);
+    return p;
+  }
   
   /** Remove this Contact from the device's contacts list.
    */
-  void remove(ContactSuccessCB success, ContactErrorCB error) {
-    //js.scoped(() {
-      var s0 = (p) {success(this); /*js.release(_proxy);*/};
-      var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _jsObject.callMethod(js.context['remove'], [ok, fail]);
-    //});
+  Future remove() {
+    Completer completer = new Completer();
+    var e0 = (p) {completer.completeError(new ContactError._fromProxy(p));};
+    var s0 = (){};
+    _toProxy().callMethod(js.context['remove'], [s0, e0]);
+    return completer.future;
   }
 
   /** Saves a new contact to the device contacts list; or updates an existing
    * contact if exists the id.
    */
-  void save(ContactSuccessCB success, ContactErrorCB error) {
-    //js.scoped(() {
-      var old = this.id;
-      var s0 = (p) {
-        if (old != p.id) //a new Contact
-          this.id = p.id;
-        if (_jsObject != p) { //a new Proxy
-          //js.release(_proxy);
-          _jsObject = p;
-          //js.retain(p);
-        }
-        success(this);
-      };
-      var e0 = (p) => error(new ContactError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("con", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _updateProxy();
-      _jsObject.callMethod(js.context['save'], [ok, fail]);
-    //});
-  }
-
-  void _updateProxy() {
-    _jsObject['displayName'] = displayName;
-    _jsObject['name'] = name == null ? null : name.toProxy();
-    _jsObject['nickname'] = nickname;
-    _jsObject['birthday'] = birthday;
-    _jsObject['note'] = note;
-    _jsObject['phoneNumbers'] = new js.JsArray.from(phoneNumbers);
-    _jsObject['emails'] = new js.JsArray.from(emails);
-    _jsObject['addresses'] = new js.JsArray.from(addresses);
-    _jsObject['ims'] = new js.JsArray.from(ims);
-    _jsObject['organizations'] = new js.JsArray.from(organizations);
-    _jsObject['photos'] = new js.JsArray.from(photos);
-    _jsObject['categories'] = new js.JsArray.from(categories);
-    _jsObject['urls'] = new js.JsArray.from(urls);
-  }
-
-  List<ContactOrganization> _toOrganizations(js.JsObject p) {
-    List<ContactOrganization> result = new List();
-    for(var j = 0, len = p['length']; j < len; ++j)
-      result.add(new ContactOrganization.fromProxy(p[j]));
-    return result;
-
-  }
-
-  List<ContactAddress> _toAddresses(js.JsObject p) {
-    List<ContactAddress> result = new List();
-    for(var j = 0, len = p['length']; j < len; ++j)
-      result.add(new ContactAddress.fromProxy(p[j]));
-    return result;
-
-  }
-
-  List<ContactField> _toFields(js.JsObject p) {
-    List<ContactField> result = new List();
-    for(var j = 0, len = p['length']; j < len; ++j)
-      result.add(new ContactField.fromProxy(p[j]));
-    return result;
+  Future<Contact> save() {
+    Completer completer = new Completer();
+    //var old = this.id;
+    var s0 = (p) {
+      this.id = p['id'];
+      completer.complete(this);
+    };
+    var e0 = (p) {completer.completeError(new ContactError._fromProxy(p));};
+    _toProxy().callMethod(js.context['save'], [e0, s0]);
+    return completer.future;
   }
 }
 
 class ContactAddress {
   /** Set to true if this ContactAddress contains the user's preferred value.*/
-  bool pref;
+  bool preference;
   /** Tells which address this is; e.g. 'home'. */
   String type;
   /** The full address formatted for display. */
@@ -155,15 +110,20 @@ class ContactAddress {
   /** The country or area name */
   String country;
 
-  ContactAddress.fromProxy(js.JsObject p)
-      : this.pref = p['pref'],
-        this.type = p['type'],
-        this.formatted = p['formatted'],
-        this.streetAddress = p['streetAddress'],
-        this.locality = p['locality'],
-        this.region = p['region'],
-        this.postalCode = p['postalCode'],
-        this.country = p['country'];
+  ContactAddress(bool this.preference, String this.type, String this.formatted,
+    String this.streetAddress, String this.locality, String this.region,
+    String this.country, String this.postalCode) {}
+  
+  factory ContactAddress._fromProxy(js.JsObject p) {
+    return new ContactAddress(p['preference'], p['type'], p['formatted'],
+      p['streetAddress'], p['locality'], p['region'], p['postalCode'], p['country']);
+  }
+  
+  js.JsObject _toProxy() {
+    return new js.JsObject(js.context['ContactAddress'], [preference, type, formatted,
+                                                          streetAddress, locality,
+                                                          region, postalCode, country]);
+  }
 }
 
 class ContactName {
@@ -180,29 +140,24 @@ class ContactName {
   /** The Contact's suffix */
   String honorificSuffix;
 
-  ContactName.fromProxy(js.JsObject p)
-      : this.formatted = p['formatted'],
-        this.familyName = p['familyName'],
-        this.givenName = p['givenName'],
-        this.middleName = p['middleName'],
-        this.honorificPrefix = p['honorificPrefix'],
-        this.honorificSuffix = p['honorificSuffix'];
-
-  js.JsObject toProxy() {
-    var p = new js.JsObject(js.context['ContactName']);
-    p['formatted'] = formatted;
-    p['familyName'] = familyName;
-    p['givenName'] = givenName;
-    p['middleName'] = middleName;
-    p['honorificPrefix'] = honorificPrefix;
-    p['honorificSuffix'] = honorificSuffix;
-    return p;
+  ContactName(String this.formatted, String this.familyName, String this.givenName,
+    String this.middleName, String this.honorificPrefix, String this.honorificSuffix) {}
+  
+  factory ContactName._fromProxy(js.JsObject p) {
+    return new ContactName(p['formatted'], p['familyName'], p['givenName'],
+      p['middleName'], p['honorificPrefix'], p['honorificSuffix']);
   }
+
+  js.JsObject _toProxy() {
+    return new js.JsObject(js.context['ContactName'], [formatted, familyName, givenName,
+                                                       middleName, honorificPrefix,
+                                                       honorificSuffix]);
+    }
 }
 
 class ContactOrganization {
   /** Set to true if this ContactOrganization contains the user's preferred value. */
-  bool pref;
+  bool preference;
   /** Tells what type this organization is; e.g. 'home'. */
   String type;
   /** The name of the organization the Contact works for. */
@@ -211,13 +166,18 @@ class ContactOrganization {
   String department;
   /** The Contact's title at the organization.*/
   String title;
-
-  ContactOrganization.fromProxy(js.JsObject p)
-      : this.pref = p['pref'],
-        this.type = p['type'],
-        this.name = p['name'],
-        this.department = p['department'],
-        this.title = p['title'];
+  
+  ContactOrganization(bool this.preference, String this.type, String this.name,
+    String this.department, String this.title) {}
+  
+  factory ContactOrganization._fromProxy(js.JsObject p) {
+    return new ContactOrganization( p['pref'], p['type'], p['name'],
+      p['department'],p['title']);
+  }
+  
+  js.JsObject _toProxy() {
+    return new js.JsObject(js.context['ContactName'], [preference, type, name, department, title]);
+  }
 }
 
 class ContactField {
@@ -226,10 +186,61 @@ class ContactField {
   /** The value of the field (such as a phone number or email address). */
   String value;
   /** Set to true if this ContactField contains the user's preferred value. */
-  bool pref;
+  bool preference;
 
-  ContactField.fromProxy(js.JsObject p)
-      : this.type = p['type'],
-        this.value = p['value'],
-        this.pref = p['pref'];
+  ContactField(String this.type, String this.value, bool this.preference) {}
+  
+  factory ContactField._fromProxy(js.JsObject p) {
+    return new ContactField(p['type'], p['value'], p['pref']);
+    }
+  
+  js.JsObject _toProxy() {
+    return new js.JsObject(js.context['ContactName'], [preference, type, value]);
+  }
 }
+
+
+
+  List<ContactOrganization> _toOrganizations(js.JsObject p) {
+    List<ContactOrganization> result = new List();
+    for(var j = 0, len = p['length']; j < len; ++j)
+      result.add(new ContactOrganization._fromProxy(p[j]));
+    return result;
+
+  }
+
+  List<ContactAddress> _toAddresses(js.JsObject p) {
+    List<ContactAddress> result = new List();
+    for(var j = 0, len = p['length']; j < len; ++j)
+      result.add(new ContactAddress._fromProxy(p[j]));
+    return result;
+
+  }
+
+  List<ContactField> _toFields(js.JsObject p) {
+    List<ContactField> result = new List();
+    for(var j = 0, len = p['length']; j < len; ++j)
+      result.add(new ContactField._fromProxy(p[j]));
+    return result;
+  }
+  
+  js.JsArray _toOrganizationsProxy(List<ContactOrganization> organs) {
+    js.JsArray p = new js.JsArray();
+    for(ContactOrganization organ in organs)
+      p.add(organ._toProxy());
+    return p;
+  }
+
+  js.JsArray _toAddressesProxy(List<ContactAddress> addresses) {
+      js.JsArray p = new js.JsArray();
+      for(ContactAddress address in addresses)
+        p.add(address._toProxy());
+      return p;
+  }
+
+  js.JsArray _toFieldsProxy(List<ContactField> fields) {
+    js.JsArray p = new js.JsArray();
+    for(ContactField field in fields)
+      p.add(field._toProxy());
+    return p;
+  }
