@@ -34,20 +34,11 @@ class MediaFile {
         this.size = p['size'];
 
   /** Returns format information of this Media file */
-  void getFormatData(MediaFileDataSuccessCB success, [MediaFileDataErrorCB error]) {
-      var s0 = (p) => success(new MediaFileData.getFileData(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, error], [1, 0]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _proxy.callMethod('getFormatData', [ok, fail]);
-  }
-
-  /** Release the MediaFile */
-  void release() {
-//    js.scoped(() => js.release(_proxy));
-    
-    // ask Tom!!!
-    
+  void getFormatData() {
+    Completer completer = new Completer();
+    var s0 = (p) {completer.complete(new MediaFileData.getFileData(p));};
+    var e0 = () {};
+    _proxy.callMethod('getFormatData', [s0, e0]);
   }
 }
 
