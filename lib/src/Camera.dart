@@ -1,6 +1,6 @@
-//1Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Wed, May 9, 2012  09:12:33 AM
-// Author: henrichen
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  11:04:33 AM
+// Author: urchinwang
 
 part of rikulo_camera;
 
@@ -22,10 +22,7 @@ class Camera {
   Camera._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    //js.scoped(() {
       _camera = js.context['navigator']['camera'];
-    //js.retain(_camera);
-    //});
   }
 
   /**
@@ -33,15 +30,13 @@ class Camera {
   * album based on the cameraOptoins paremeter. Returns the image as a
   * base64 encoded String or as the URI of an image file.
   */
-  void getPicture(CameraSuccessCB success,
-      CameraErrorCB error, [CameraOptions options]) {
-    //js.scoped(() {
-      var jsfns = JSUtil.newCallbackOnceGroup("cam", [success, error], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-      _camera.callMethod(js.context['getPicture'], [ok, fail, opts]);
-    //});
+  Future<dynamic> getPicture([CameraOptions options]) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new CameraImageData.getImagegData(p));
+    var fail = (p) => cmpl.completeError(new CameraError.getErrorMessage(p));
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    _camera.callMethod('getPicture', [ok, fail, opts]);
+    return cmpl.future;
   }
 
   /**
@@ -50,13 +45,11 @@ class Camera {
    * [PictureSourceType.CAMERA] and [CameraOptions.destinationType] is set
    * to [DestinationType.FILE_URI].
    */
-  void cleanup(CleanupSuccessCB success, CameraErrorCB error) {
-    //js.scoped(() {
-      var jsfns = JSUtil.newCallbackOnceGroup("cam", [success, error], [0, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _camera.callMethod(js.context['getPicture'], [ok, fail]);
-    // _camera.cleanup(ok, fail);
-    //});
+  Future<dynamic> cleanup() {
+    Completer cmpl = new Completer();
+    var ok = (_) => cmpl.complete(null);
+    var fail = (p) => cmpl.completeError(new CameraError.getErrorMessage(p));
+    _camera.callMethod('cleanup', [ok, fail]);
+    return cmpl.future;
   }
 }

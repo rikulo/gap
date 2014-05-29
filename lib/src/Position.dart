@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Fri, May 18, 2012  09:18:11 AM
-// Author: henrichen
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  11:47:38 AM
+// Author: urchinwang
 
 part of rikulo_geolocation;
 
@@ -9,8 +9,8 @@ class Position {
   final Coordinates coords;
   final int timestamp;
 
-  Position.fromProxy(js.JsObject p)
-      : this.coords = new Coordinates.fromProxy(p['coords']),
+  Position.getPosition(js.JsObject p)
+      : this.coords = new Coordinates.getCoords(p['coords']),
         this.timestamp = p['timestamp'];
 
   String toString() => "($timestamp: $coords)";
@@ -32,7 +32,7 @@ class Coordinates {
   /** Ground speed in meters per second */
   double speed;
 
-  Coordinates.fromProxy(js.JsObject p)
+  Coordinates.getCoords(js.JsObject p)
       : this.latitude = p['latitude'],
         this.longitude = p['longitude'],
         this.altitude = p['altitude'],

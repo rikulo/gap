@@ -13,6 +13,6 @@ class CompassError {
 
   final int code;
 
-  CompassError.fromProxy(js.JsObject p)
+  CompassError.getErrorCode(js.JsObject p)
       : this.code = p['code'];
 }

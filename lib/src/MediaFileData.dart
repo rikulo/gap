@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Mon, May 21, 2012  03:51:44 PM
-// Author: henrichen
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  12:10:33 AM
+// Author: urchinwang
 
 part of rikulo_capture;
 
@@ -17,7 +17,7 @@ class MediaFileData {
   /** The length of audio/video clip in seconds; image is always 0 */
   int duration;
 
-  MediaFileData.fromProxy(js.JsObject p)
+  MediaFileData.getFileData(js.JsObject p)
       : this.codecs = p['codecs'],
         this.bitrate = p['bitrate'],
         this.height = p['height'],

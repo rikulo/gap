@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Wed, May 2, 2012  12:32:56 PM
-// Author: henrichen
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Wed, May 28, 2014  11:58:56 PM
+// Author: urchinwang
 
 part of rikulo_device;
 
@@ -12,17 +12,20 @@ class Device {
   js.JsObject _device;
 
   Device._internal() {
-//    js.scoped(() {
       _device = js.context['device'];
-//      js.retain(_device);
-//    });
   }
-
-  String get name =>  _device['name'];
-  String get cordova => _device['cordova'];
+  
+ /**
+  * This represents the mobile device, and provides properties for inspecting the model, version, UUID of the
+  * phone, etc.
+  * @constructor
+  */
+  bool get available => _device['available'];
   String get platform => _device['platform'];
-  String get uuid => _device['uuid'];
   String get version => _device['version'];
+  String get uuid => _device['uuid'];
+  String get cordova => _device['cordova'];
+  String get model => _device['model'];
 
   void _onDeviceReady() {
     //TODO
@@ -125,87 +128,45 @@ class Device {
  * + [serviceUri] - the URI of the device access service uri;
  *                  default: "cordova.js".
  */
-Future<Device> enableDeviceAccess([String serviceUri = "cordova.js"])
+Future<Device> enableDeviceAccess()
 => device == null ?
-    _doWhenDeviceReady(serviceUri) : new Future.value(device);
+    _doWhenDeviceReady() : new Future.value(device);
 
 //wait Cordova ready
-Future<Device> _doWhenDeviceReady(String serviceUri) {
-  //load cordova.js
-  if (!_cordovaLoaded())
-    _injectJavaScriptSrc(serviceUri); //load "cordova.js" asynchronously
-
-  //wait cordova.js to be loaded. Try every 10 ms, try total 180 seconds
-  Future<bool> loaded = JSUtil.doWhenReady(_cordovaLoaded, 50, 180000);
-
-  //prepare the device-ready callback
+Future<Device> _doWhenDeviceReady() {
   Completer cmpl = new Completer();
-  Function _doDeviceReady = () {
+  
+  _doDeviceReady () {
     Device dev = new Device._internal();
     dev._registerDeviceEvents();
     device = dev;
     dev._onDeviceReady();
     cmpl.complete(dev);
-  };
-
-  //after cordova.js loaded
-  loaded.then((ready) {
-    if (ready) {
-      //call/register the device-ready callback
-      if (_deviceReady())
-        try {
-          _doDeviceReady();
-        } catch (exp) {
-          cmpl.completeError(exp);
-        }
-      else
-        _addEventListener("deviceready", _doDeviceReady, true);
-    } else //time out, throw exception.
-      cmpl.completeError(
-          new StateError("Time out! Fail to enable the device."));
-  });
-
+  }
+  
+  if (_deviceReady()) {
+    try {
+      _doDeviceReady();
+    } catch (exp) {
+      cmpl.completeError(exp);
+    }
+  } else
+    _addEventListener("deviceready", _doDeviceReady, true);
   return cmpl.future;
 }
 
 //Add cordova event listener
 void _addEventListener(String name, Function callback, [bool once = false]) {
-//  js.scoped(() {
-    var listener = once ?
-        callback : callback;
-//        new js.Callback.once(callback) : new js.Callback.many(callback);
-        js.context.callMethod(js.context['document']['addEventListener'], [name, listener, false]);
-
-//  });
-}
-
-//Whether cordova.js is loaded
-bool _cordovaLoaded() {
-//  return js.scoped(() {
-    var ctx = js.context;
-    if (ctx['cordova'] != null) {
-      var cordova = ctx['cordova'];
-      if(cordova['require'] != null) {
-        var channel = cordova['require']("cordova/channel");
-        //registered but event not fired yet
-        if (channel.onDOMContentLoaded['fired'] == false) //Cordova 2.1 and before
-          channel.onDOMContentLoaded.fire();
-        else if (channel.onDOMContentLoaded['state'] == 1) //Cordova 2.2
-          channel.onDOMContentLoaded.fire();
-      }
-    }
-    return ctx['cordova'] != null;
-//  });
+  document.addEventListener(name, callback, false);
 }
 
 //Whether cordova device is ready
 bool _deviceReady() {
-//  return js.scoped(() {
     var ctx = js.context;
     if (ctx['cordova'] != null) {
       var cordova = ctx['cordova'];
       if(cordova['require'] != null) {
-        var channel = cordova['require']("cordova/channel");
+        var channel = cordova.callMethod('require', ['cordova/channel']);
         var features = channel.deviceReadyChannelsArray;
         var len = features.length;
         for (int j = 0; j < len; ++j) {
@@ -215,14 +176,4 @@ bool _deviceReady() {
       }
     }
     return true;
-//  });
-}
-
-//Inject JavaScript
-void _injectJavaScriptSrc(String uri) {
-  var s = new ScriptElement();
-  s.type = "text/javascript";
-  s.charset = "utf-8";
-  s.src = uri;
-  document.head.nodes.add(s);
 }

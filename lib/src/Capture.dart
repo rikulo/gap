@@ -1,14 +1,8 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Mon, May 21, 2012  02:44:12 PM
-// Author: henrichen
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  11:55:54 AM
+// Author: urchinwang
 
 part of rikulo_capture;
-
-/** onSuccess callback function that returns the captured media */
-typedef CaptureSuccessCB(List<MediaFile> mediaFiles);
-
-/** onError callback function if fail to capture the media */
-typedef CaptureErrorCB(CaptureError error);
 
 /** Singleton Capture. */
 Capture capture = new Capture._internal();
@@ -24,74 +18,55 @@ class Capture {
   Capture._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    //js.scoped(() {
-      _capture = js.context['navigator']['device.capture'];
-      //js.retain(_capture);
-    //});
+    _capture = js.context['navigator']['device']['capture'];
   }
 
   /** Returns the audio formats supported by this device */
-  //not sure!!!!
   List<ConfigurationData> get supportedAudioModes
-  //=> js.scoped(() => _capture.supportedAudioModes);
-  => _capture.callMethod(js.context['supportedAudioModes']);
+  => _capture.callMethod('supportedAudioModes');
 
   /** Returns the image formats/size supported by this device */
   List<ConfigurationData> get supportedImageModes
-  //=> js.scoped(() => _capture.supportedImageModes);
-  => _capture.callMethod(js.context['supportedImageModes']);
+  => _capture.callMethod('supportedImageModes');
 
   /** Returns the video formats/resolutions suupported by this device */
   List<ConfigurationData> get supportedVideoModes
-  //=> js.scoped(() => _capture.supportedVideoModes);
-  => _capture.callMethod(js.context['supportedVideoModes']);
+  => _capture.callMethod('supportedVideoModes');
 
   /** Launch device audio recording application to record audio clips. */
-  void captureAudio(CaptureSuccessCB success,
-                    CaptureErrorCB error, [CaptureAudioOptions options]) {
-    //js.scoped(() {
-      var s0 = (p) => success(_toFiles(p));
-      var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-      _capture.callMethod(js.context['captureAudio'], [ok, fail, opts]);
-   // });
+  Future<dynamic> captureAudio([CaptureAudioOptions options]) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(_toFiles(p));
+    var fail = (p) => cmpl.completeError(new CaptureError.getErrorCode(p));
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    _capture.callMethod('captureAudio', [ok, fail, opts]);
+    return cmpl.future;
   }
 
   /** Launch camera application to capture image files. */
-  void captureImage(CaptureSuccessCB success,
-                    CaptureErrorCB error, [CaptureImageOptions options]) {
-    //js.scoped(() {
-      var s0 = (p) => success(_toFiles(p));
-      var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-      _capture.callMethod(js.context['captureImage'], [ok, fail, opts]);
-    //});
+  Future<dynamic> captureImage([CaptureImageOptions options]) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(_toFiles(p));
+    var fail = (p) => cmpl.completeError(new CaptureError.getErrorCode(p));
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    _capture.callMethod('captureImage', [ok, fail, opts]);
+    return cmpl.future;
   }
 
   /** Launch device video recording application to record video clips. */
-  void captureVideo(CaptureSuccessCB success,
-                    CaptureErrorCB error, [CaptureVideoOptions options]) {
-    //js.scoped(() {
-      var s0 = (p) => success(_toFiles(p));
-      var e0 = (p) => error(new CaptureError.fromProxy(p));
-      var jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-      _capture.callMethod(js.context['captureVideo'], [ok, fail, opts]);
-    //});
+  Future<dynamic> captureVideo([CaptureVideoOptions options]) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(_toFiles(p));
+    var fail = (p) => cmpl.completeError(new CaptureError.getErrorCode(p));
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    _capture.callMethod('captureVideo', [ok, fail, opts]);
+    return cmpl.future;
   }
 
   List<MediaFile> _toFiles(js.JsObject p) {
     List<MediaFile> result = new List();
     for(var j = 0; j < p['length']; ++j) {
-      MediaFile mf = new MediaFile.fromProxy(p[j]);
+      MediaFile mf = new MediaFile.getFile(p[j]);
       result.add(mf);
     }
     return result;

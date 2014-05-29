@@ -5,6 +5,7 @@
 library rikulo_compass;
 
 import 'dart:html';
+import 'dart:async';
 import 'dart:js' as js;
 import 'js.dart';
 import 'device.dart';

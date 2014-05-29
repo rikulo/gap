@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Fri, Apr 27, 2012  10:26:33 AM
-// Author: henrichen, tomyeh
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  10:43:33 AM
+// Author: urchinwang
 
 part of rikulo_compass;
 
@@ -23,27 +23,21 @@ class Compass {
   Compass._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    //js.scoped(() {
       _compass = js.context['navigator']['compass'];
-      //js.retain(_compass);
-    //});
   }
 
   /**
-   * Returns the current compass heading; the compass heading is returned via
-   * the [success] callback.
+   * Returns the current compass heading. It measures the heading in degrees 
+   * from 0 to 359.99, where 0 is north.
    * Returns the error code if fail to obtain the compass heading; the error
    * code is returned via the [error] callback.
    */
-  void getCurrentHeading(CompassSuccessCB success, CompassErrorCB error) {
-    //js.scoped(() {
-      var s0 = (p) => success(new CompassHeading.fromProxy(p));
-      var e0 = (p) => error(new CompassError.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("cmp", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      js.context.callMethod(js.context['navigator']['compass']['getCurrentHeading'], [ok, fail]);
-    //});
+  Future<dynamic> getCurrentHeading() {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new CompassHeading.getHeading(p));
+    var fail = (p) => cmpl.completeError(new CompassError.getErrorCode(p));
+    _compass.callMethod('getCurrentHeading', [ok, fail]);
+    return cmpl.future;
   }
 
   /**
@@ -56,19 +50,12 @@ class Compass {
    * + [options] - optional parameter.
    */
   watchHeading(CompassSuccessCB success,
-               CompassErrorCB error, [CompassOptions options]) {
-//  return js.scoped(() {
-    return () {   
-      var s0 = (p) => success(new CompassHeading.fromProxy(p));
-      var e0 = (p) => error(new CompassError.fromProxy(p));
-      var ok = s0;
-      var fail = e0;
-      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-      var id = "cmp_${js.context.callMethod(js.context['navigator']['compass']['watchHeading'], [ok, fail, opts])}";
-      JSUtil.addCallbacks(id, [ok, fail]);
-      return id;
-    //});
-    };
+               CompassErrorCB error, [CompassOptions options]) { 
+    var ok = (p) => success(new CompassHeading.getHeading(p));
+    var fail = (p) => error(new CompassError.getErrorCode(p));
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    var id = "cmp_${_compass.callMethod('watchHeading', [ok, fail, opts])}";
+    return id;
   }
 
   /**
@@ -78,9 +65,6 @@ class Compass {
    * + [watchID] - the watch ID got from [watchCompassHeading] method.
    */
   void clearWatch(var watchID) {
-    //js.scoped(() {
-      js.context.callMethod(js.context['navigator']['compass']['clearWatch'], [watchID.substring(4)]);
-      JSUtil.delCallbacks(watchID);
-    //});
+      _compass.callMethod('clearWatch', [watchID.substring(4)]);
   }
 }

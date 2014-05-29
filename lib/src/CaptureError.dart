@@ -14,7 +14,7 @@ class CaptureError {
 
   final int code; //error code
 
-  CaptureError.fromProxy(js.JsObject p)
+  CaptureError.getErrorCode(js.JsObject p)
       : this.code = p['code'];
 }
 

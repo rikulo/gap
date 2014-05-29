@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Fri, Apr 27, 2012  10:26:33 AM
-// Author: henrichen, tomyeh
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Wed, May 28, 2014  11:31:33 PM
+// Author: urchinwang
 
 part of rikulo_accelerometer;
 
@@ -23,22 +23,23 @@ class Accelerometer {
   Accelerometer._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    _accelerometer = js.context.callMethod(js.context['navigator']['accelerometer']);
-    //_accelerometer = js.context.navigator.accelerometer;
+    _accelerometer = js.context['navigator']['accelerometer'];
+//    js.context.callMethod('alert', [_accelerometer]);
   }
 
   /**
    * Returns the current motion Acceleration along x, y, and z axis.
    * The acceleration is returned via the [success] callback.
    */
-  void getCurrentAcceleration(AccelerometerSuccessCB success,
-                              AccelerometerErrorCB error) {
-    
-    var s0 = (p) => success(new Acceleration.fromProxy(p));
-    List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
-    var ok = jsfns[0];
-    var fail = jsfns[1];
-    _accelerometer.callMethod(js.context['getCurrentAcceleration'],[ok, fail]);
+  Future<Acceleration> getCurrentAcceleration() {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new Acceleration.getAcceleration(p));
+    var fail = () => cmpl.completeError(null);
+//    List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, e0], [1, 0]);
+//    var ok = jsfns[0];
+//    var fail = jsfns[1];
+    _accelerometer.callMethod('getCurrentAcceleration', [ok, fail]);
+    return cmpl.future;
   }
 
   /**
@@ -52,12 +53,13 @@ class Accelerometer {
    */
   watchAcceleration(AccelerometerSuccessCB success,
                     AccelerometerErrorCB error, [AccelerometerOptions options]) {
-    var s0 = (p) => success(new Acceleration.fromProxy(p));
-    //var ok = new js.Callback.many(s0);
-    var ok = s0;
+    var ok = (p) => success(new Acceleration.getAcceleration(p));
     var fail = error;
+    //var ok = new js.Callback.many(s0);
+//    var ok = s0;
+//    var fail = e0;
     var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-    var id = "acc_${_accelerometer.callMethod(js.context['watchAcceleration'], [ok, fail, opts])}";
+    var id = "acc_${_accelerometer.callMethod('watchAcceleration', [ok, fail, opts])}";
     JSUtil.addCallbacks(id, [ok, fail]);
     return id;
   }

@@ -14,7 +14,7 @@ class Acceleration {
   final num z;
   final int timestamp;
 
-  Acceleration.fromProxy(js.JsObject p)
+  Acceleration.getAcceleration(js.JsObject p)
       : this.x = p['x'],
         this.y = p['y'],
         this.z = p['z'],

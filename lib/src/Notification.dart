@@ -4,9 +4,6 @@
 
 part of rikulo_notification;
 
-typedef NotificationAlertCallback();
-typedef NotificationConfirmCallback(int buttonId);
-
 /** Singleton Notification. */
 Notification notification = new Notification._internal();
 
@@ -21,46 +18,41 @@ class Notification {
   Notification._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-//    js.scoped(() {
-      _notification = js.context.callMethod(js.context['navigator']['notification']);
-//      js.retain(_notification);
-//    });
+    _notification = js.context['navigator']['notification'];
   }
 
   /** Show a custom alert/dialog box.
    * + [message] dialog message.
-   * + [alertCallback] callback function when the alert dialog is closed.
    * + [title] dialog title; default to "Alert".
    * + [buttonName] button name of the dialog; default to "OK".
    */
-  alert(String message, NotificationAlertCallback alertCallback,
+  Future alert(String message, 
       [String title = 'Alert', String buttonName = 'OK']) {
-//    js.scoped(() {
-      var s = alertCallback;
-      _notification.callMethod(js.context['alert'], [message, s, title, buttonName]);
-//    });
+    Completer cmpl = new Completer();
+    var ok = () => cmpl.complete();
+    _notification.callMethod('alert', [message, ok, title, buttonName]);
+    return cmpl.future;
   }
 
   /** Show a customizable confirmation dialog box.
    * + [message] dialog message.
-   * + [confirmCallback] callback function invoked with index of button pressed(1, 2, or 3) when the confirm dialog is closed.
    * + [title] dialog title; default to "Confirm".
    * + [buttonLabels] comma separated button names of the dialog; default to "OK,Cancel".
    */
-  confirm(String message, NotificationConfirmCallback confirmCallback,
-          [String title = 'Confirm', String buttonLabels = 'OK,Cancel']) {
-//    js.scoped(() {
-      var s = confirmCallback;
-      _notification.callMethod(js.context['confirm'], [message, s, title, buttonLabels]);
-//    });
+  Future<ButtonIndex> confirm(String message, 
+      [String title = 'Confirm', String buttonLabels = 'OK,Cancel']) {
+    Completer cmpl = new Completer();
+    var ok = (index) => cmpl.complete(new ButtonIndex.getIndex(index));
+    _notification.callMethod('confirm', [message, ok, title, buttonLabels]);
+    return cmpl.future;
   }
 
   /** Play a beep sound.
    * + [times] the number of times to beep.
    */
-  beep(int times) =>  _notification.callMethod(js.context['beep'], [times]);
+  beep(int times) =>  _notification.callMethod('beep', [times]);
 
   /** Vibrates device the specified duration in milliseconds.
    */
-  vibrate(int milliseconds) => _notification.callMethod(js.context['vibrate'], [milliseconds]);
+  vibrate(int milliseconds) => _notification.callMethod('vibrate', [milliseconds]);
 }

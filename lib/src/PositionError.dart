@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Mon, Oct 15, 2012  05:04:26 PM
-// Author: henrichen
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  11:47:59 AM
+// Author: urchinwang
 
 part of rikulo_geolocation;
 
@@ -13,7 +13,7 @@ class PositionError {
   final int code;
   final String message;
 
-  PositionError.fromProxy(js.JsObject p)
+  PositionError.getPositionError(js.JsObject p)
       : this.code = p['code'],
         this.message = p['message'];
 }

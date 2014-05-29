@@ -25,25 +25,21 @@ class MediaFile {
 
   js.JsObject _proxy;
 
-  MediaFile.fromProxy(js.JsObject p)
+  MediaFile.getFile(js.JsObject p)
       : this._proxy = p,
         this.name = p['name'],
         this.fullPath = p['fullPath'],
         this.type = p['type'],
         this.date = p['date'],
-        this.size = p['size'] {
-//    js.retain(_proxy); //must retain the proxy for calling getFormatData
-  }
+        this.size = p['size'];
 
   /** Returns format information of this Media file */
   void getFormatData(MediaFileDataSuccessCB success, [MediaFileDataErrorCB error]) {
-//    js.scoped(() {
-      var s0 = (p) => success(new MediaFileData.fromProxy(p));
+      var s0 = (p) => success(new MediaFileData.getFileData(p));
       List jsfns = JSUtil.newCallbackOnceGroup("cap", [s0, error], [1, 0]);
       var ok = jsfns[0];
       var fail = jsfns[1];
-      _proxy.callMethod(js.context['getFormatData'], [ok, fail]);
-//    });
+      _proxy.callMethod('getFormatData', [ok, fail]);
   }
 
   /** Release the MediaFile */

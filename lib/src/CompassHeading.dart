@@ -15,7 +15,7 @@ class CompassHeading {
   /** the time in milliseconds the heading was determined */
   final int timestamp;
 
-  CompassHeading.fromProxy(js.JsObject p)
+  CompassHeading.getHeading(js.JsObject p)
       : this.magneticHeading = p['magneticHeading'],
         this.trueHeading= p['trueHeading'],
         this.headingAccuracy = p['headingAccuracy'],

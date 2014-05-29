@@ -1,6 +1,6 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Fri, Apr 27, 2012  10:26:33 AM
-// Author: henrichen, tomyeh
+//Copyright (C) 2014 Potix Corporation. All Rights Reserved.
+//History: Thu, May 29, 2014  11:31:05 AM
+// Author: urchinwang
 
 part of rikulo_geolocation;
 
@@ -23,26 +23,19 @@ class Geolocation {
   Geolocation._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-//    js.scoped(() {
-      _geolocation = js.context['navigator']['geolocation'];
-//      js.retain(_geolocation);
-//    });
+    _geolocation = js.context['navigator']['geolocation'];
   }
 
   /**
    * Returns the current Position of this device.
    * The Position is returned via the success callback function.
    */
-  void getCurrentPosition(GeolocationSuccessCB success,
-                    [GeolocationErrorCB error, GeolocationOptions options]) {
-//    js.scoped(() {
-      var s0 = (p) => success(new Position.fromProxy(p));
-      var e0 = (p) => error(new PositionError.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("geo", [s0, e0], [1, 1]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _geolocation.callMethod(js.context['getCurrentPosition'], [ok, fail]);
-//    });
+  Future<dynamic> getCurrentPosition([GeolocationOptions options]) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new Position.getPosition(p));
+    var fail = (p) => cmpl.completeError(new PositionError.getPositionError(p));
+    _geolocation.callMethod('getCurrentPosition', [ok, fail]);
+    return cmpl.future;
   }
 
   /**
@@ -54,19 +47,13 @@ class Geolocation {
    * + [error] - error callback function.
    * + [options] - optional parameter.
    */
-  watchPosition(GeolocationSuccessCB success,
-                    [GeolocationErrorCB error, GeolocationOptions options]) {
-    return () {
-      var s0 = (p) => success(new Position.fromProxy(p));
-      var e0 = error == null ?
-          null : (p) => error(new PositionError.fromProxy(p));
-      var ok = s0;
-      var fail = e0 == null ? null : e0;
-      var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
-      var id = "geo_${geolocation.watchPosition(ok, fail, opts)}";
-      JSUtil.addCallbacks(id, [ok, fail]);
-      return id;
-    };
+  watchPosition(GeolocationSuccessCB success, 
+                [GeolocationErrorCB error, GeolocationOptions options]) {
+    var ok = (p) => success(new Position.getPosition(p));
+    var fail = (p) => error(new PositionError.getPositionError(p));
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    var id = "geo_${_geolocation.callMethod('watchPosition',[ok, fail, opts])}";
+    return id;
   }
 
   /**
@@ -76,9 +63,6 @@ class Geolocation {
    * + [watchID] - the watch ID got from [watchPosition] method.
    */
   void clearWatch(var watchID) {
-//    js.scoped(() {
-      _geolocation.callMethod(js.context['clearWatch'], [watchID.substring(4)]);
-      JSUtil.delCallbacks(watchID);
-//    });
+    _geolocation.callMethod('clearWatch', [watchID.substring(4)]);
   }
 }
