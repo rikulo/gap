@@ -1,12 +1,7 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Tue, Oct 9, 2012  06:03:22 PM
-// Author: henrichen
-
 import 'package:rikulo_gap/device.dart';
 import 'package:rikulo_gap/accelerometer.dart';
 
 import 'dart:async';
-import 'dart:html';
 import 'dart:js' as js;
 
 void accessAccelerometer() {
@@ -37,11 +32,11 @@ void accessAccelerometer() {
                                        +'z:${acc.z}\n'
                                        +'t:${acc.timestamp}']);
       },
-      () => print("Fail!"));
+      () => js.context.callMethod('alert', ['Failed!']));
 
     new Timer(new Duration(seconds: 5), () => accelerometer.clearWatch(id));
   })
-  .catchError((_) => js.context.callMethod('alert',['Failed!']));
+  .catchError((e) => js.context.callMethod('alert',['Failed!']));
 }
 
 void main() {

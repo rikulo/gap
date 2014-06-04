@@ -27,7 +27,7 @@ class Accelerometer {
   Future<Acceleration> getCurrentAcceleration() {
     Completer cmpl = new Completer();
     var ok = (p) => cmpl.complete(new Acceleration._fromProxy(p));
-    var fail = (_) => cmpl.completeError(null);
+    var fail = (_) => cmpl.completeError(new UnknownError());
     
     _accelerometer.callMethod('getCurrentAcceleration', [ok, fail]);
     return cmpl.future;
