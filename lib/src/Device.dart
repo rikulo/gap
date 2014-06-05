@@ -22,6 +22,22 @@ class Device {
   /** Return the name of the device's model or product. */
   String get model => _device['model'];
   
+  /** Init the device when device APIs have loaded and are ready to access; 
+   * throw exception if failed to enable the device.
+   *
+   *     Future enable = Device.init();
+   *     enable.then(() {
+   *        //Access the device
+   *         ...
+   *     });
+   *     enable.handleException((e) {
+   *        //Fail to enable the device
+   *         ...
+   *     });
+   *
+   * This method can be called multiple times, but the second invocation
+   * will return immediately.
+   */
   static Future init() 
   => device == null ? 
       _enableDevice() : new Future.value();
