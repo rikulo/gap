@@ -1,10 +1,5 @@
 part of rikulo_contacts;
 
-/** onSuccess callback function that returns the Contact List */
-typedef ContactsSuccessCB(List<Contact> contacts);
-/** onError callback function if fail getting the Contact List */
-typedef ContactsErrorCB(ContactError error);
-
 /** Singleton Contacts. */
 Contacts contacts = new Contacts._internal();
 
@@ -24,21 +19,23 @@ class Contacts {
   /**
   * Returns the Contacts queried by this method.
   * + [fields] the fields name in Contact you want to query back; return
-  *   Contact id only if empty; return all fields if provide ["*"].
+  *   Contact id only if empty; a zero-length fields is invalid and
+  *   result in [ContactError.INVALID_ARGUMENT_ERROR];return all fields
+  *   if provide ["*"].
   * + [contactOptions] the filter string to apply the query.
   */
   Future<List<Contact>> find(List<String> fields, ContactsFindOptions contactOptions) {
     Completer completer = new Completer();
-      var fs = new js.JsArray.from(fields);
-      var s0 = (p) {
+      var fieldList = new js.JsArray.from(fields);
+      var ok = (p) {
         List<Contact> result = new List();
         for(var j = 0; j < p.length; ++j)
           result.add(new Contact._fromProxy(p[j]));
         completer.complete(result);
       };
-      var e0 = (p) {completer.completeError(new ContactError._fromProxy(p));};
+      var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
       var opts = new js.JsObject.jsify(contactOptions._toMap());
-      _contacts.callMethod(js.context['find'], [fs, s0, e0, opts]);
+      _contacts.callMethod(js.context['find'], [fieldList, ok, fail, opts]);
       return completer.future;
   }
 }

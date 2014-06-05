@@ -8,14 +8,8 @@ Element searchInp;
 Element createInpName;
 Element createInpNumber;
 void main() {
-  enableDeviceAccess().then((dev) {
-    if (dev == null) {
-      print("Time out! Fail to enable device.");
-    } else {
       initElements();
       initEvents();
-    }
-  });
 }
 
 void initElements() {
