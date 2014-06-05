@@ -2,56 +2,43 @@ import 'package:rikulo_gap/device.dart';
 import 'package:rikulo_gap/contacts.dart';
 import 'dart:html';
 
-Element createBtn;
-Element searchBtn;
-Element searchInp;
-Element createInpName;
-Element createInpNumber;
 void main() {
-      initElements();
-      initEvents();
-}
-
-void initElements() {
-  createBtn = querySelector("#create_btn");
-  searchBtn = querySelector("#search_btn");
-  searchInp = querySelector("#searchName_txt");
-  createInpName = querySelector("#name_txt");
-  createInpNumber = querySelector("#tel_txt");
+  Device.init()
+  .then((_) {
+    initEvents();
+  });
 }
 
 void initEvents() {
-  searchBtn.onClick.listen(( MouseEvent evt){
+  querySelector("#search_btn").onClick.listen(( MouseEvent evt){
     var fields = const ['displayName', 'phoneNumbers'];
     ContactsFindOptions options = new  ContactsFindOptions(filter : getSearchName(), multiple :true);
     contacts.find(fields, options)
     .then((contacts){
-      TableSectionElement tbdy = document.getElementById('contact_body');
-       int length = tbdy.rows.length;
-       for(var i=0; i<length;i++){
-         tbdy.deleteRow(0);
-       }
-       for(var i=0; i<contacts.length; i++){
-         TableRowElement newRow = tbdy.insertRow(-1);// add at the end
-         newRow.insertCell(0).text = contacts[i].displayName;
-         newRow.insertCell(1).text = contacts[i].phoneNumbers[0].value;
-       }
+      setSearchName('');
+      TableSectionElement tbdy = document.querySelector('#contact_body');
+      String tableContent = '';
+      for(var i=0; i<contacts.length; i++){
+        String row = '<tr><td>' + contacts[i].displayName + '</td><td>' + contacts[i].phoneNumbers[0].value + '</td></tr>';
+        tableContent += row;
+      }
+      tbdy.innerHtml = tableContent;
       })
-      .catchError((_){
-         function() {alert('fail!');};
+      .catchError((ex){
+         function() {alert('fail!\n$ex');};
       });
   });
 
-  createBtn.onClick.listen(( MouseEvent evt){ 
+  querySelector("#create_btn").onClick.listen(( MouseEvent evt){ 
     List<ContactField> phoneNumbers = [];
     phoneNumbers[0] = new ContactField('mobile', getInpNumbers(), false);
      
-    Contact myContact =  new Contact(new ContactName(getInpName(), "", getInpName(), "", "", ""), phoneNumbers: phoneNumbers);
+    Contact myContact =  new Contact(getInpName(), phoneNumbers: phoneNumbers);
     myContact.save()
     .then((_) {
       alert('Complete!');
-      createInpName.setAttribute('value', '');
-      createInpNumber.setAttribute('value', '');      
+      setInpName('');
+      setInpNumbers('');      
     })
     .catchError((ex){
       alert('Try again!\n$ex');
@@ -60,17 +47,28 @@ void initEvents() {
 }
 
 String getSearchName() {
-  return (searchInp as InputElement).value;
+  return (querySelector("#searchName_txt") as InputElement).value;
 }
 
 String getInpName() {
-  return createInpName.getAttribute('value');
+  return (querySelector("#name_txt") as InputElement).value;
 }
 
 String getInpNumbers() {
-  return createInpNumber.getAttribute('value');
+  return (querySelector("#tel_txt") as InputElement).value;
 }
 
+void setSearchName(String string) {
+  (querySelector("#searchName_txt") as InputElement).value = string;
+}
+
+void setInpName(String string) {
+  (querySelector("#name_txt") as InputElement).value = string;
+}
+
+void setInpNumbers(String string) {
+  (querySelector("#tel_txt") as InputElement).value = string;
+}
 void onError(ContactError contactError) {
   alert('Not Found!');  
 }
