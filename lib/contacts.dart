@@ -4,10 +4,10 @@
 
 library rikulo_contacts;
 
-import 'dart:html';
-import 'package:js/js.dart' as js;
-import 'js.dart';
+import 'dart:js' as js;
 import 'device.dart';
+import 'dart:async';
+
 
 part 'src/Contact.dart';
 part 'src/Contacts.dart';
