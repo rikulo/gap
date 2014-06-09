@@ -1,7 +1,3 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Fri, Apr 27, 2012  10:26:33 AM
-// Author: henrichen, tomyeh
-
 part of rikulo_accelerometer;
 
 /** onSuccess callback function that returns the Acceleration information */
@@ -13,69 +9,54 @@ typedef AccelerometerErrorCB();
 Accelerometer accelerometer = new Accelerometer._internal();
 
 /**
- * Capture device motion in x, y, and z direction.
+ * Capture device motion in the x, y, and z direction.
  */
 class Accelerometer {
-  js.Proxy _accelerometer;
-
-  factory Accelerometer() => accelerometer;
-
+  js.JsObject _accelerometer;
+  
   Accelerometer._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _accelerometer = js.context.navigator.accelerometer;
-      js.retain(_accelerometer);
-    });
+    _accelerometer = js.context['navigator']['accelerometer'];
   }
-
+  
   /**
-   * Returns the current motion Acceleration along x, y, and z axis.
-   * The acceleration is returned via the [success] callback.
+   * Get the current acceleration along the x, y, and z axes.
+   * These acceleration values are returned via future.then().
    */
-  void getCurrentAcceleration(AccelerometerSuccessCB success,
-                              AccelerometerErrorCB error) {
-    js.scoped(() {
-      var s0 = (p) => success(new Acceleration.fromProxy(p));
-      List jsfns = JSUtil.newCallbackOnceGroup("acc", [s0, error], [1, 0]);
-      var ok = jsfns[0];
-      var fail = jsfns[1];
-      _accelerometer.getCurrentAcceleration(ok, fail);
-    });
+  Future<Acceleration> getCurrentAcceleration() {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new Acceleration._fromProxy(p));
+    var fail = (_) => cmpl.completeError(new UnknownError());
+    
+    _accelerometer.callMethod('getCurrentAcceleration', [ok, fail]);
+    return cmpl.future;
   }
-
-  /**
-   * Register functions to get the Acceleration information in a regular
-   * interval. This method returns an associated watchID which you can use to
-   * clear this watch via [clearWatch] method.
-   *
+  
+  /** 
+   * At a regular interval, get the acceleration along the x, y, and z axis.
+   * The returned watch ID references the accelerometer's watch interval, 
+   * and can be used with accelerometer.clearWatch(ID) to stop watching the accelerometer.
+   * 
    * + [success] - success callback function.
    * + [error] - error callback function.
-   * + [options] - optional parameter.
+   * + [options] - optional parameter got from [AccelerometerOptions] class.
    */
   watchAcceleration(AccelerometerSuccessCB success,
                     AccelerometerErrorCB error, [AccelerometerOptions options]) {
-    return js.scoped(() {
-      var s0 = (p) => success(new Acceleration.fromProxy(p));
-      var ok = new js.Callback.many(s0);
-      var fail = new js.Callback.many(error);
-      var opts = options == null ? null : js.map(options._toMap());
-      var id = "acc_${_accelerometer.watchAcceleration(ok, fail, opts)}";
-      JSUtil.addCallbacks(id, [ok, fail]);
-      return id;
-    });
+    var ok = (p) => success(new Acceleration._fromProxy(p));
+    var fail = error;
+    var opts = options == null ? null : new js.JsObject.jsify(options._toMap());
+    
+    var id = _accelerometer.callMethod('watchAcceleration', [ok, fail, opts]);
+    return id;
   }
-
+  
   /**
-   * Stop watching the Acceleration that was associated with the specified
-   * watchID.
-   *
+   * Stop watching the Acceleration referenced by the watchID parameter.
    * + [watchID] - the watch ID got from [watchAcceleration] method.
    */
   void clearWatch(var watchID) {
-    js.scoped(() {
-      _accelerometer.clearWatch(watchID.substring(4));
-      JSUtil.delCallbacks(watchID);
-    });
-  }
+      _accelerometer.callMethod('clearWatch', [watchID]);
+    }
 }

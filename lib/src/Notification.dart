@@ -1,66 +1,67 @@
-//Copyright (C) 2012 Potix Corporation. All Rights Reserved.
-//History: Fri, May 18, 2012  03:31:33 PM
-// Author: henrichen
-
 part of rikulo_notification;
-
-typedef NotificationAlertCallback();
-typedef NotificationConfirmCallback(int buttonId);
 
 /** Singleton Notification. */
 Notification notification = new Notification._internal();
 
-/**
- * Access to the device notification facility.
- */
 class Notification {
-  js.Proxy _notification;
-
-  factory Notification() => notification;
-
+  js.JsObject _notification;
+  
   Notification._internal() {
     if (device == null)
       throw new StateError('device is not ready yet.');
-    js.scoped(() {
-      _notification = js.context.navigator.notification;
-      js.retain(_notification);
-    });
+    _notification = js.context['navigator']['notification'];
   }
-
-  /** Show a custom alert/dialog box.
-   * + [message] dialog message.
-   * + [alertCallback] callback function when the alert dialog is closed.
-   * + [title] dialog title; default to "Alert".
-   * + [buttonName] button name of the dialog; default to "OK".
+  
+  /** Shows a custom alert or dialog box.
+   * + [message] - dialog message.
+   * + [title] - dialog title; default to "Alert".
+   * + [buttonName] - button name of the dialog; default to "OK".
    */
-  alert(String message, NotificationAlertCallback alertCallback,
-      [String title = 'Alert', String buttonName = 'OK']) {
-    js.scoped(() {
-      var s = new js.Callback.once(alertCallback);
-      _notification.alert(message, s, title, buttonName);
-    });
+  Future alert(String message,
+               [String title = 'Alert', String buttonName = 'OK']) {
+    Completer cmpl = new Completer();
+    var ok = () => cmpl.complete();
+    
+    _notification.callMethod('alert', [message, ok, title, buttonName]);
+    return cmpl.future;
   }
-
-  /** Show a customizable confirmation dialog box.
-   * + [message] dialog message.
-   * + [confirmCallback] callback function invoked with index of button pressed(1, 2, or 3) when the confirm dialog is closed.
-   * + [title] dialog title; default to "Confirm".
-   * + [buttonLabels] comma separated button names of the dialog; default to "OK,Cancel".
+  
+  /** Displays a customizable confirmation dialog box.
+   * + [message] - dialog message.
+   * + [title] - dialog title; default to "Confirm".
+   * + [buttonLabels] - List of strings specifying button labels; defaults to ['OK', 'Cancel'].
    */
-  confirm(String message, NotificationConfirmCallback confirmCallback,
-          [String title = 'Confirm', String buttonLabels = 'OK,Cancel']) {
-    js.scoped(() {
-      var s = new js.Callback.once(confirmCallback);
-      _notification.confirm(message, s, title, buttonLabels);
-    });
+  Future<NotificationButtonIndex> confirm(String message,
+      [String title = 'Confirm', var buttonLabels = const ['OK', 'Cancel']]) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new NotificationButtonIndex._fromProxy(p));
+    
+    _notification.callMethod('confirm', [message, ok, title, buttonLabels]);
+    return cmpl.future;
   }
-
-  /** Play a beep sound.
-   * + [times] the number of times to beep.
+  
+  /** Shows a customizable prompt dialog box.
+   * + [message] - dialog message.
+   * + [title] - dialog title; default to "Prompt".
+   * + [buttonLabels] - List of strings specifying button labels; defaults to ['OK', 'Cancel'].
+   * + [defaultText] - Default textbox input value; default to empty string.
    */
-  beep(int times) => js.scoped(() => _notification.beep(times));
-
-  /** Vibrates device the specified duration in milliseconds.
+  Future<NotificationPromptResults> prompt(String message, 
+      [String title = 'Prompt', var buttonLabels = const ['OK', 'Cancel'], String defaultText = '']) {
+    Completer cmpl = new Completer();
+    var ok = (p) => cmpl.complete(new NotificationPromptResults._fromProxy(p));
+    
+    _notification.callMethod('prompt', [message, ok, title, buttonLabels, defaultText]);
+    return cmpl.future;
+  }
+  
+  /** The device plays a beep sound.
+   * + [times] - The number of times to repeat the beep.
    */
-  vibrate(int milliseconds) => js.scoped(() => _notification.vibrate(milliseconds));
+  void beep(int times) => _notification.callMethod('beep', [times]);
+
+  /** Vibrates the device for the specified amount of time.
+   * + [milliseconds] - Milliseconds to vibrate the device, where 1000 milliseconds equals 1 second.
+   */
+  void vibrate(int milliseconds) => _notification.callMethod('vibrate', [milliseconds]);
 }

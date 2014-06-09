@@ -18,6 +18,6 @@ class ContactError {
   /** error code */
   final int code;
 
-  ContactError.fromProxy(js.Proxy p)
-      : this.code = p.code;
+  ContactError._fromProxy(js.JsObject p)
+      : this.code = p['code'];
 }
