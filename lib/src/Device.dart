@@ -25,12 +25,12 @@ class Device {
   /** Init the device when device APIs have loaded and are ready to access; 
    * throw exception if failed to enable the device.
    *
-   *     Future enable = Device.init();
-   *     enable.then(() {
+   *     Device.init()
+   *     .then((Device device) {
    *        //Access the device
    *         ...
-   *     });
-   *     enable.handleException((e) {
+   *     })
+   *     .catchError((ex) {
    *        //Fail to enable the device
    *         ...
    *     });
@@ -38,40 +38,20 @@ class Device {
    * This method can be called multiple times, but the second invocation
    * will return immediately.
    */
-  static Future init() 
+  static Future<Device> init() 
   => device == null ? 
-      _enableDevice() : new Future.value();
+      _enableDevice() : new Future.value(device);
   
-  static Future _enableDevice() {
+  static Future<Device> _enableDevice() {
     Completer cmpl = new Completer();
     
     var _doWhenDeviceReady = (_) {
       device = new Device._internal();
-      if (device == null) {
-        cmpl.completeError(null);
-      }
-      cmpl.complete();
+      cmpl.complete(device);
     };
     
     //Essential to any application. It signals that Cordova's device APIs have loaded and are ready to access.
     document.addEventListener("deviceready", _doWhenDeviceReady, true);
-    return cmpl.future;
-  }
-  
-  /** 
-   * Cordova lifecycle events listener.
-   * + [event] - Event to listen.
-   * 
-   * Available event: 
-   *  pause, resume, online, offline, 
-   *  backbutton, batterycritical, batterylow, batterystatus, 
-   *  menubutton, searchbutton, startcallbutton, endcallbutton, 
-   *  volumedownbutton, volumeupbutton
-   */ 
-  static Future enableDeviceAccess(String event) {
-    Completer cmpl = new Completer();
-    
-    document.addEventListener(event, (_) => cmpl.complete(), true);
     return cmpl.future;
   }
 }
