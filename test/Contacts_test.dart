@@ -1,5 +1,5 @@
 import 'package:rikulo_gap/device.dart';
-import 'package:rikulo_gap/contacts.dart';
+import 'package:rikulo_gap/contact.dart';
 import 'dart:html';
 
 void main() {

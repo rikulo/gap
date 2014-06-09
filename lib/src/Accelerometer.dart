@@ -6,7 +6,7 @@ typedef AccelerometerSuccessCB(Acceleration accel);
 typedef AccelerometerErrorCB();
 
 /** Singleton Accelerometer. */
-Accelerometer accelerometer = new Accelerometer._internal();
+final Accelerometer accelerometer = new Accelerometer._();
 
 /**
  * Capture device motion in the x, y, and z direction.
@@ -14,10 +14,10 @@ Accelerometer accelerometer = new Accelerometer._internal();
 class Accelerometer {
   js.JsObject _accelerometer;
   
-  Accelerometer._internal() {
-    if (device == null)
-      throw new StateError('device is not ready yet.');
+  Accelerometer._() {
     _accelerometer = js.context['navigator']['accelerometer'];
+    if (_accelerometer == null)
+      throw new StateError('Not ready yet.');
   }
   
   /**

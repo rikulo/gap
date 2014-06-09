@@ -39,15 +39,14 @@ class Contact {
     String this.id, ContactName this.name}) {
   }
   
-  factory Contact._fromProxy(js.JsObject p) {
-    return new Contact(p['displayName'], id: p['id'], 
+  factory Contact._fromProxy(js.JsObject p)
+  => new Contact(p['displayName'], id: p['id'], 
         name: new ContactName._fromProxy(p['name']), nickname: p['nickname'], 
         phoneNumbers: _toFields(p['phoneNumbers']), emails: _toFields(p['email']),
         addresses: _toAddresses(p['addresses']), ims: _toFields(p['ims']),
         organizations: _toOrganizations(p['organization']), birthday: p['birthday'],
         note: p['note'], photos: _toFields(p['photos']),
         categories: _toFields(p['categories']), urls: _toFields(p['urls']));
-  }
   
   js.JsObject _toProxy() {
     js.JsObject p = new js.JsObject(js.context['Contact']);
@@ -125,19 +124,16 @@ class ContactAddress {
 
   ContactAddress({bool this.preference: false, String this.type: "", String this.streetAddress: "",
     String this.locality: "", String this.region: "", String this.country: "", String this.postalCode: "",
-    String this.formatted}) {}
+    String this.formatted});
   
-  factory ContactAddress._fromProxy(js.JsObject p) {
-    return new ContactAddress(preference: p['preference'], type: p['type'], formatted: p['formatted'],
+  factory ContactAddress._fromProxy(js.JsObject p)
+  => new ContactAddress(preference: p['preference'], type: p['type'], formatted: p['formatted'],
       streetAddress: p['streetAddress'], locality: p['locality'], region: p['region'],
       postalCode: p['postalCode'], country:p['country']);
-  }
   
-  js.JsObject _toProxy() {
-    return new js.JsObject(js.context['ContactAddress'], [preference, type, null,
-                                                          streetAddress, locality,
-                                                          region, postalCode, country]);
-  }
+  js.JsObject _toProxy()
+  => new js.JsObject(js.context['ContactAddress'], [preference, type, null,
+        streetAddress, locality, region, postalCode, country]);
 }
 
 /** parse from displayName */
@@ -155,13 +151,12 @@ class ContactName {
   /** The Contact's suffix */
   String honorificSuffix;
 
-  ContactName._create(String this.formatted, String this.familyName, String this.givenName,
-    String this.middleName, String this.honorificPrefix, String this.honorificSuffix) {}
+  ContactName(String this.formatted, String this.familyName, String this.givenName,
+    String this.middleName, String this.honorificPrefix, String this.honorificSuffix);
   
-  factory ContactName._fromProxy(js.JsObject p) {
-    return new ContactName._create(p['formatted'], p['familyName'], p['givenName'],
+  factory ContactName._fromProxy(js.JsObject p)
+  => new ContactName(p['formatted'], p['familyName'], p['givenName'],
       p['middleName'], p['honorificPrefix'], p['honorificSuffix']);
-  }
 
   js.JsObject _toProxy() {
     return new js.JsObject(js.context['ContactName'], [formatted, familyName, givenName,
@@ -183,16 +178,14 @@ class ContactOrganization {
   String title;
   
   ContactOrganization({bool this.preference: false, String this.type: "", String this.name: "",
-    String this.department: "", String this.title: ""}) {}
+    String this.department: "", String this.title: ""});
   
-  factory ContactOrganization._fromProxy(js.JsObject p) {
-    return new ContactOrganization(preference: p['pref'], type: p['type'],
+  factory ContactOrganization._fromProxy(js.JsObject p)
+  => new ContactOrganization(preference: p['pref'], type: p['type'],
       name: p['name'], department: p['department'],title: p['title']);
-  }
   
-  js.JsObject _toProxy() {
-    return new js.JsObject(js.context['ContactName'], [preference, type, name, department, title]);
-  }
+  js.JsObject _toProxy()
+  => new js.JsObject(js.context['ContactName'], [preference, type, name, department, title]);
 }
 
 class ContactField {
@@ -205,13 +198,11 @@ class ContactField {
 
   ContactField(String this.type, String this.value, bool this.preference) {}
   
-  factory ContactField._fromProxy(js.JsObject p) {
-    return new ContactField(p['type'], p['value'], p['pref']);
-    }
+  factory ContactField._fromProxy(js.JsObject p)
+  => new ContactField(p['type'], p['value'], p['pref']);
   
-  js.JsObject _toProxy() {
-    return new js.JsObject(js.context['ContactName'], [preference, type, value]);
-  }
+  js.JsObject _toProxy()
+  => new js.JsObject(js.context['ContactName'], [preference, type, value]);
 }
 
 

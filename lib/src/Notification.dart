@@ -1,15 +1,15 @@
 part of rikulo_notification;
 
 /** Singleton Notification. */
-Notification notification = new Notification._internal();
+final Notification notification = new Notification._();
 
 class Notification {
   js.JsObject _notification;
   
-  Notification._internal() {
-    if (device == null)
-      throw new StateError('device is not ready yet.');
+  Notification._() {
     _notification = js.context['navigator']['notification'];
+    if (_notification == null)
+      throw new StateError('Not ready yet');
   }
   
   /** Shows a custom alert or dialog box.

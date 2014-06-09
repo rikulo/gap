@@ -1,20 +1,18 @@
 part of rikulo_contacts;
 
-/** Singleton Contacts. */
-Contacts contacts = new Contacts._internal();
+///The [Contacts] object to access the contacts list.
+final Contacts contacts = new Contacts._();
 
 /**
  * Access to the contacts list of this device.
  */
 class Contacts {
-  js.JsObject _contacts;
+  final js.JsObject _contacts;
 
-  Contacts._internal() {
-    if (device == null)
-      throw new StateError('device is not ready yet.');
-      _contacts = js.context['navigator']['contacts'];
+  Contacts._(): _contacts = js.context['navigator']['contacts'] {
+      if (_contacts == null)
+        throw new StateError('Not ready yet');
   }
-
 
   /**
   * Returns the Contacts queried by this method.
@@ -26,18 +24,16 @@ class Contacts {
   */
   Future<List<Contact>> find(List<String> fields, ContactsFindOptions contactOptions) {
     Completer completer = new Completer();
-      var fieldList = new js.JsArray.from(fields);
-      var ok = (p) {
-        List<Contact> result = new List();
-        for(var j = 0; j < p.length; ++j)
-          result.add(new Contact._fromProxy(p[j]));
-        completer.complete(result);
-      };
-      var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
-      var opts = new js.JsObject.jsify(contactOptions._toMap());
-      _contacts.callMethod(js.context['find'], [fieldList, ok, fail, opts]);
-      return completer.future;
+    var fieldList = new js.JsArray.from(fields);
+    var ok = (p) {
+      List<Contact> result = new List();
+      for(var j = 0; j < p.length; ++j)
+        result.add(new Contact._fromProxy(p[j]));
+      completer.complete(result);
+    };
+    var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
+    var opts = new js.JsObject.jsify(contactOptions._toMap());
+    _contacts.callMethod(js.context['find'], [fieldList, ok, fail, opts]);
+    return completer.future;
   }
 }
-
-
