@@ -9,7 +9,7 @@ import 'device.dart';
 import 'dart:async';
 
 
-part 'src/Contact.dart';
-part 'src/Contacts.dart';
-part 'src/ContactFindOptions.dart';
-part 'src/ContactError.dart';
+part 'src/contact/Contact.dart';
+part 'src/contact/Contacts.dart';
+part 'src/contact/ContactFindOptions.dart';
+part 'src/contact/ContactError.dart';

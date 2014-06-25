@@ -51,7 +51,7 @@ class Device {
     };
     
     //Essential to any application. It signals that Cordova's device APIs have loaded and are ready to access.
-    document.addEventListener("deviceready", _doWhenDeviceReady, true);
+    document.addEventListener("deviceready", _doWhenDeviceReady, false);
     return cmpl.future;
   }
 }

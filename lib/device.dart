@@ -4,4 +4,4 @@ import 'dart:html';
 import 'dart:async';
 import 'dart:js' as js;
 
-part 'src/Device.dart';
+part 'src/device/Device.dart';
