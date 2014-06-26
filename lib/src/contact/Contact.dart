@@ -1,6 +1,7 @@
 part of rikulo_contact;
 
-/** Contains properties that describe a contact, such as a user's personal or business contact.
+/** Contains properties that describe a [Contact], such as a user's personal
+ *  or business contact.
  */
 class Contact {
   /**global unique identifier*/
@@ -104,6 +105,8 @@ class Contact {
   }
 }
 
+/** Contains address properties for a [Contact] object.
+ */
 class ContactAddress {
   /** Set to true if this ContactAddress contains the user's preferred value.*/
   bool preference;
@@ -136,7 +139,9 @@ class ContactAddress {
         streetAddress, locality, region, postalCode, country]);
 }
 
-/** parse from displayName */
+/** Contains different kinds of information about a [Contact] object's name.
+ * Parsed from from displayName. You can get it by save().
+ */
 class ContactName {
   /** The Contact's complete name. */
   final String formatted;
@@ -165,6 +170,8 @@ class ContactName {
     }
 }
 
+/** Contains a [Contact] object's organization properties.
+ */
 class ContactOrganization {
   /** Set to true if this ContactOrganization contains the user's preferred value. */
   bool preference;
@@ -188,6 +195,9 @@ class ContactOrganization {
   => new js.JsObject(js.context['ContactName'], [preference, type, name, department, title]);
 }
 
+/** Supports generic fields in a [Contact] object. Some properties stored as ContactField
+ *  objects include email addresses, phone numbers, and URLs.
+ */
 class ContactField {
   /** Tells what kind of field this is for; e.g. 'email' */
   String type;
