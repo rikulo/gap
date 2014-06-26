@@ -7,8 +7,10 @@ Device device;
 class Device {
   js.JsObject _device;
   
-  Device._internal() {
+  Device._() {
     _device = js.context['device'];
+    if (_device == null)
+       throw new StateError('Device not ready.');
   }
 
   /** Get the device's operating system name. */
@@ -30,7 +32,7 @@ class Device {
    *        //Access the device
    *         ...
    *     })
-   *     .catchError((ex) {
+   *     .catchError((ex, st) {
    *        //Fail to enable the device
    *         ...
    *     });
@@ -45,13 +47,18 @@ class Device {
   static Future<Device> _enableDevice() {
     Completer cmpl = new Completer();
     
-    var _doWhenDeviceReady = (_) {
-      device = new Device._internal();
-      cmpl.complete(device);
+    void doWhenDeviceReady(_) {
+      try {
+        device = new Device._();
+      } catch(ex, st) {
+        cmpl.completeError(ex, st);
+      } finally {
+        cmpl.complete(device);
+      }
     };
     
     //Essential to any application. It signals that Cordova's device APIs have loaded and are ready to access.
-    document.addEventListener("deviceready", _doWhenDeviceReady, false);
+    document.addEventListener("deviceready", doWhenDeviceReady);
     return cmpl.future;
   }
 }
