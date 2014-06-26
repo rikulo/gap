@@ -41,7 +41,7 @@ void accessAccelerometer() {
 
 void main() {
   Device.init()
-  .then((_) {
+  .then((Device device) {
     accessAccelerometer();
   })
   .catchError((ex, st) => print(ex+ '\n' + st));
