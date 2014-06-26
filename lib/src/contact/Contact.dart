@@ -37,8 +37,7 @@ class Contact {
     List<ContactOrganization> this.organizations, DateTime this.birthday,
     String this.note, List<ContactField> this.photos,
     List<ContactField> this.categories, List<ContactField> this.urls,
-    String this.id}) {
-  }
+    String this.id});
   
   factory Contact._fromProxy(js.JsObject p)
     => new Contact(p['displayName'], id: p['id'], nickname: p['nickname'], 
@@ -84,7 +83,7 @@ class Contact {
     Completer completer = new Completer();
     var ok = (){completer.complete();};
     var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
-    _toProxy().callMethod(js.context['remove'], [ok, fail]);
+    _toProxy().callMethod('remove', [ok, fail]);
     return completer.future;
   }
 
@@ -98,7 +97,7 @@ class Contact {
       completer.complete(new ContactName._fromProxy(p['name']));
     };
     var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
-    _toProxy().callMethod(js.context['save'], [ok, fail]);
+    _toProxy().callMethod('save', [ok, fail]);
     return completer.future;
   }
 }
@@ -235,6 +234,7 @@ class ContactField {
     List<ContactField> result = new List();
     for(var j = 0, len = p.length; j < len; ++j)
       result.add(new ContactField._fromProxy(p[j]));
+   print('-----------------------------==F');
     return result;
   }
   
@@ -242,6 +242,7 @@ class ContactField {
     js.JsArray p = new js.JsArray();
     for(ContactOrganization organ in organs)
       p.add(organ._toProxy());
+    print('-----------------------------==O');
     return p;
   }
 
@@ -249,6 +250,7 @@ class ContactField {
       js.JsArray p = new js.JsArray();
       for(ContactAddress address in addresses)
         p.add(address._toProxy());
+      print('-----------------------------==A');
       return p;
   }
 

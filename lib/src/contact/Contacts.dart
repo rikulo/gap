@@ -25,15 +25,18 @@ class Contacts {
   Future<List<Contact>> find(List<String> fields, ContactsFindOptions contactOptions) {
     Completer completer = new Completer();
     var fieldList = new js.JsArray.from(fields);
-    var ok = (p) {
+    var ok = (js.JsArray p) {
       List<Contact> result = new List();
-      for(var j = 0; j < p.length; ++j)
+      for(var j = 0; j < p.length; ++j) {
+  print('++++++${p[j]}');
         result.add(new Contact._fromProxy(p[j]));
+      }
+  print('====');
       completer.complete(result);
     };
     var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
     var opts = new js.JsObject.jsify(contactOptions._toMap());
-    _contacts.callMethod(js.context['find'], [fieldList, ok, fail, opts]);
+    _contacts.callMethod('find', [fieldList, ok, fail, opts]);
     return completer.future;
   }
 }

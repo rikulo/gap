@@ -11,6 +11,7 @@ void main() {
 
 void initEvents() {
   querySelector("#search_btn").onClick.listen(( MouseEvent evt){
+    print('search is clicked!');
     var fields = const ['displayName', 'phoneNumbers'];
     ContactsFindOptions options = new  ContactsFindOptions(filter : getSearchName(), multiple :true);
     contacts.find(fields, options)
@@ -18,7 +19,8 @@ void initEvents() {
       setSearchName('');
       TableSectionElement tbdy = document.querySelector('#contact_body');
       String tableContent = '';
-      for(var i=0; i<contacts.length; i++){
+      for(var i=0; i < contacts.length; i++){
+        print('get len');
         String row = '<tr><td>' + contacts[i].displayName + '</td><td>' + contacts[i].phoneNumbers[0].value + '</td></tr>';
         tableContent += row;
       }
@@ -30,8 +32,9 @@ void initEvents() {
   });
 
   querySelector("#create_btn").onClick.listen(( MouseEvent evt){ 
-    List<ContactField> phoneNumbers = [];
-    phoneNumbers[0] = new ContactField('mobile', getInpNumbers(), false);
+    print('create is clicked!');
+    List<ContactField> phoneNumbers = new List();
+    phoneNumbers.add(new ContactField('mobile', getInpNumbers(), false));
      
     Contact myContact =  new Contact(getInpName(), phoneNumbers: phoneNumbers);
     myContact.save()
