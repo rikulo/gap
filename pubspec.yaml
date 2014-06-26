@@ -1,8 +1,8 @@
 name: rikulo_gap
 version:
 authors:
-- Abby Yeh
-- Urchin Wang
+- ' Abby Yeh <b01902102@ntu.edu.tw>'
+- ' Urchin Wang <b01902080@ntu.edu.tw>'
 - ' Tom Yeh <tomyeh@rikulo.org>'
 description: Rikulo Gap is a bridge implementation of Apache Cordova which enables developers to access native resources of mobile platforms using the HTML5 and Dart.
 homepage: http://rikulo.org
