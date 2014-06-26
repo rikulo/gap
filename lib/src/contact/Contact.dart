@@ -1,4 +1,4 @@
-part of rikulo_contacts;
+part of rikulo_contact;
 
 class Contact {
   /**global unique identifier*/

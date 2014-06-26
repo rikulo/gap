@@ -1,4 +1,4 @@
-part of rikulo_contacts;
+part of rikulo_contact;
 
 ///The [Contacts] object to access the contacts list.
 final Contacts contacts = new Contacts._();
