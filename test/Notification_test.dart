@@ -31,7 +31,8 @@ void accessNotification() {
 
 void main() {
   Device.init()
-  .then((_) {
+  .then((Device device) {
     accessNotification();
-  });
+  })
+  .catchError((ex, st) => print(ex+ '\n' + st));
 }
