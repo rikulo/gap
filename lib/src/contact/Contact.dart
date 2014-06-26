@@ -1,5 +1,8 @@
 part of rikulo_contact;
 
+/** Contains properties that describe a [Contact], such as a user's personal
+ *  or business contact.
+ */
 class Contact {
   /**global unique identifier*/
   String id;
@@ -36,12 +39,11 @@ class Contact {
     List<ContactOrganization> this.organizations, DateTime this.birthday,
     String this.note, List<ContactField> this.photos,
     List<ContactField> this.categories, List<ContactField> this.urls,
-    String this.id, ContactName this.name}) {
+    String this.id}) {
   }
   
   factory Contact._fromProxy(js.JsObject p)
-  => new Contact(p['displayName'], id: p['id'], 
-        name: new ContactName._fromProxy(p['name']), nickname: p['nickname'], 
+    => new Contact(p['displayName'], id: p['id'], nickname: p['nickname'], 
         phoneNumbers: _toFields(p['phoneNumbers']), emails: _toFields(p['email']),
         addresses: _toAddresses(p['addresses']), ims: _toFields(p['ims']),
         organizations: _toOrganizations(p['organization']), birthday: p['birthday'],
@@ -91,12 +93,11 @@ class Contact {
   /** Saves a new contact to the device contacts list; or updates an existing
    * contact if exists the id.
    */
-  Future<Contact> save() {
+  Future<ContactName> save() {
     Completer completer = new Completer();
     var ok = (p) {
       this.id = p['id'];
-      this.name = new ContactName._fromProxy(p['name']);
-      completer.complete(this);
+      completer.complete(new ContactName._fromProxy(p['name']));
     };
     var fail = (p) {completer.completeError(new ContactError._fromProxy(p));};
     _toProxy().callMethod(js.context['save'], [ok, fail]);
@@ -104,6 +105,8 @@ class Contact {
   }
 }
 
+/** Contains address properties for a [Contact] object.
+ */
 class ContactAddress {
   /** Set to true if this ContactAddress contains the user's preferred value.*/
   bool preference;
@@ -136,26 +139,28 @@ class ContactAddress {
         streetAddress, locality, region, postalCode, country]);
 }
 
-/** parse from displayName */
+/** Contains different kinds of information about a [Contact] object's name.
+ * Parsed from from displayName. You can get it by save().
+ */
 class ContactName {
   /** The Contact's complete name. */
-  String formatted;
+  final String formatted;
   /** The Contact's family name. */
-  String familyName;
+  final String familyName;
   /** The Contact's given name. */
-  String givenName;
+  final String givenName;
   /** The Contact's middle name. */
-  String middleName;
+  final String middleName;
   /** The Contact's prefix; e.g. Mr., Mrs., Miss, or Dr. */
-  String honorificPrefix;
+  final String honorificPrefix;
   /** The Contact's suffix */
-  String honorificSuffix;
+  final String honorificSuffix;
 
-  ContactName(String this.formatted, String this.familyName, String this.givenName,
+  ContactName._(String this.formatted, String this.familyName, String this.givenName,
     String this.middleName, String this.honorificPrefix, String this.honorificSuffix);
   
   factory ContactName._fromProxy(js.JsObject p)
-  => new ContactName(p['formatted'], p['familyName'], p['givenName'],
+  => new ContactName._(p['formatted'], p['familyName'], p['givenName'],
       p['middleName'], p['honorificPrefix'], p['honorificSuffix']);
 
   js.JsObject _toProxy() {
@@ -165,6 +170,8 @@ class ContactName {
     }
 }
 
+/** Contains a [Contact] object's organization properties.
+ */
 class ContactOrganization {
   /** Set to true if this ContactOrganization contains the user's preferred value. */
   bool preference;
@@ -188,6 +195,9 @@ class ContactOrganization {
   => new js.JsObject(js.context['ContactName'], [preference, type, name, department, title]);
 }
 
+/** Supports generic fields in a [Contact] object. Some properties stored as ContactField
+ *  objects include email addresses, phone numbers, and URLs.
+ */
 class ContactField {
   /** Tells what kind of field this is for; e.g. 'email' */
   String type;
