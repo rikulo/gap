@@ -50,10 +50,9 @@ class Device {
     void doWhenDeviceReady(_) {
       try {
         device = new Device._();
+        cmpl.complete(device);
       } catch(ex, st) {
         cmpl.completeError(ex, st);
-      } finally {
-        cmpl.complete(device);
       }
     };
     
