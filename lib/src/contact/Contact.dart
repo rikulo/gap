@@ -9,8 +9,6 @@ class Contact {
   /**The name of this Contact, suitable for display to end users*/
   String displayName;
   /** An object containing all components of a persons name;parse from displayName; */
-  ContactName name;
-  /** A casual name by which to address the contact */
   String nickname;
   /** An array of all the contact's phone numbers */
   List<ContactField> phoneNumbers;
