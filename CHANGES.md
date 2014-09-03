@@ -14,3 +14,8 @@
 
    * Refactor 'device' out from Rikulo main trunk.
    * Make it run with Dart's official js-interop package and independent to Rikulo's code.
+
+* Sep. 3, 2014
+
+   * js-interop is deprecated, must specify version 0.2.0.
+
