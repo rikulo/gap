@@ -7,8 +7,11 @@ authors:
 - Henri Chen <henrichen@rikulo.org>
 - Tom Yeh <tomyeh@rikulo.org>
 homepage: http://rikulo.org
-dependencies:
-  js: any
+#dependencies:
+#  js: any
+dependency_overrides:
+  js: 0.2.0
+
 dev_dependencies:
   unittest: any
 environment:
