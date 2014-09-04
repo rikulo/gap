@@ -17,16 +17,6 @@ Add this to your `pubspec.yaml` (or create it):
     dependencies:
       rikulo_gap: ">=0.6.0 <0.7.0"
 
-##Install from Github for Bleeding Edge Stuff
-
-To install stuff that is still in development, add this to your `pubspec.yam`:
-
-    dependencies:
-      rikulo_gap:
-        git: git://github.com/rikulo/gap.git
-
-For more information, please refer to [Pub: Dependencies](http://pub.dartlang.org/doc/pubspec.html#dependencies).
-
 ##Usage
 
 Everything start from enabling your device accessiblity:
@@ -56,6 +46,16 @@ Everything start from enabling your device accessiblity:
     }
 
 For more information, please refer to [Building Native Mobile Application](http://docs.rikulo.org/ui/latest/Getting_Started/Building_Native_Mobile_Application.html).
+
+##Install from Github for Bleeding Edge Stuff
+
+To install stuff that is still in development, add this to your `pubspec.yam`:
+
+    dependencies:
+      rikulo_gap:
+        git: git://github.com/rikulo/gap.git
+
+For more information, please refer to [Pub: Dependencies](http://pub.dartlang.org/doc/pubspec.html#dependencies).
 
 ###Fork Rikulo Gap
 
