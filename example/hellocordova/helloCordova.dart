@@ -3,12 +3,9 @@ import 'package:rikulo_gap/accelerometer.dart';
       
 //At a regular interval, get the acceleration along the x, y, and z axis.
 void accessAccelerometer() {
-  var id = accelerometer.watchAcceleration(
+  accelerometer.watchAcceleration(
     (Acceleration acc) {
-      print("t:${acc.timestamp}\n"
-           +"x:${acc.x}\n"
-           +"y:${acc.y}\n"
-           +"z:${acc.z}\n");
+      print("t:${acc.timestamp}, x:${acc.x}, y:${acc.y}, z:${acc.z}");
     },
     () => print("Fail to get acceleration."),
     new AccelerometerOptions(frequency: 1000)
@@ -18,10 +15,9 @@ void accessAccelerometer() {
 void main() {
   Device.init()
   .then((Device device) {
-     accessAccelerometer();
+    accessAccelerometer();
   })
   .catchError((ex, st) {
-     print(ex);
-     print(st);
+    print("Failed: $ex, $st");
   });
 }

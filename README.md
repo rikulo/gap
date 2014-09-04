@@ -26,8 +26,7 @@ Then run the [Pub Package Manager](http://pub.dartlang.org/doc) (comes with the 
 To install stuff that is still in development, add this to your `pubspec.yam`:
 
     dependencies:
-      rikulo_gap:
-        git: git://github.com/rikulo/gap.git
+      rikulo_gap: ">=0.6.0 <0.7.0"
 
 For more information, please refer to [Pub: Dependencies](http://pub.dartlang.org/doc/pubspec.html#dependencies).
 
@@ -36,20 +35,27 @@ For more information, please refer to [Pub: Dependencies](http://pub.dartlang.or
 Everything start from enabling your device accessiblity:
 
     import 'package:rikulo_gap/device.dart';
-
+    import 'package:rikulo_gap/accelerometer.dart';
+    
+    //At a regular interval, get the acceleration along the x, y, and z axis.
+    void accessAccelerometer() {
+      accelerometer.watchAcceleration(
+        (Acceleration acc) {
+          print("t:${acc.timestamp}, x:${acc.x}, y:${acc.y}, z:${acc.z}");
+        },
+        () => print("Fail to get acceleration."),
+        new AccelerometerOptions(frequency: 1000)
+      );
+    }
+    
     void main() {
-        //enable the device
-      Future<Device> enable = enableDeviceAccess(); 
-
-        //when the device is enabled and ready
-      enable.then((device) {
-        ...
+      Device.init()
+      .then((Device device) {
+         accessAccelerometer();
+      })
+      .catchError((ex, st) {
+         print("Failed: $ex, $st");
       });
-
-        //if failed to enable the device and/or timeout
-      enable.handleException((ex) {
-        ...
-        });
     }
 
 For more information, please refer to [Building Native Mobile Application](http://docs.rikulo.org/ui/latest/Getting_Started/Building_Native_Mobile_Application.html).
