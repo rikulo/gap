@@ -4,7 +4,7 @@
  
 * [Home](http://rikulo.org)
 * [Documentation](http://docs.rikulo.org/ui/latest/Rikulo_Gap/)
-* [API Reference](http://www.dartdocs.org/documentation/rikulo_gap/0.6.0)
+* [API Reference](http://www.dartdocs.org/documentation/rikulo_gap/0.6.0+1)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/gap/issues)
 
@@ -15,18 +15,15 @@ Rikulo Gap is distributed under the Apache 2.0 License.
 Add this to your `pubspec.yaml` (or create it):
 
     dependencies:
-      rikulo_gap:
-
-Then run the [Pub Package Manager](http://pub.dartlang.org/doc) (comes with the Dart SDK):
-
-    pub install
+      rikulo_gap: ">=0.6.0 <0.7.0"
 
 ##Install from Github for Bleeding Edge Stuff
 
 To install stuff that is still in development, add this to your `pubspec.yam`:
 
     dependencies:
-      rikulo_gap: ">=0.6.0 <0.7.0"
+      rikulo_gap:
+        git: git://github.com/rikulo/gap.git
 
 For more information, please refer to [Pub: Dependencies](http://pub.dartlang.org/doc/pubspec.html#dependencies).
 
