@@ -1,4 +1,4 @@
-part of rikulo_unknown_error;
+part of rikulo_device;
 
 /** Error returned when get no error information. */
 class UnknownError {

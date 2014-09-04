@@ -4,7 +4,7 @@
  
 * [Home](http://rikulo.org)
 * [Documentation](http://docs.rikulo.org/ui/latest/Rikulo_Gap/)
-* [API Reference](http://api.rikulo.org/gap/latest)
+* [API Reference](http://www.dartdocs.org/documentation/rikulo_gap/0.6.0)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
 * [Issues](https://github.com/rikulo/gap/issues)
 
